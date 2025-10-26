@@ -1,0 +1,25 @@
+<%- include('partials/menu') %>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>FoodExpress - Login</title>
+</head>
+<body>
+  <h1>Bem-vindo ao FoodExpress</h1>
+
+  <h2>Login</h2>
+  <form action="/login" method="POST">
+    <input type="email" name="email" placeholder="E-mail" required>
+    <input type="password" name="password" placeholder="Senha" required>
+    <button type="submit">Login</button>
+  </form>
+
+  <h2>Cadastro</h2>
+  <form action="/cadastro" method="POST">
+    <input type="text" name="name" placeholder="Nome" required>
+    <input type="email" name="email" placeholder="E-mail" required>
+    <input type="password" name="password" placeholder="Senha" required>
+    <button type="submit">Cadastrar</button>
+  </form>
+</body>
+</html>

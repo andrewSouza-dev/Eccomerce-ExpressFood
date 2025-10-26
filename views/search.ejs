@@ -1,0 +1,28 @@
+<%- include('partials/menu') %>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>FoodExpress - Resultado da Busca</title>
+</head>
+<body>
+  <h1>Resultados para "<%= query %>"</h1>
+
+  <% if(produtos.length === 0){ %>
+    <p>Nenhum prato encontrado!</p>
+  <% } else { %>
+    <ul>
+      <% produtos.forEach(p => { %>
+        <li>
+          <h2><%= p.name %> - R$ <%= p.price.toFixed(2) %></h2>
+          <p>Restaurante: <%= p.restaurant.name %></p>
+          <form action="/cart" method="POST">
+            <input type="hidden" name="productId" value="<%= p.id %>">
+            <input type="number" name="quantity" value="1" min="1">
+            <button type="submit">Adicionar ao carrinho</button>
+          </form>
+        </li>
+      <% }) %>
+    </ul>
+  <% } %>
+</body>
+</html>

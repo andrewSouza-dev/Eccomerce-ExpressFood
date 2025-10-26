@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken')
 const prisma = require('../database')
 
 // Middleware para proteger as rotas
-const autentication = async (req, res, next) => {
+const authentication = async (req, res, next) => {
     const token = req.headers.authorization?.split(' ')[1] // Extrai token do header Authorization
     if (!token) return res.status(401).json({ error: 'Token ausente' }) // Se não houver token, bloqueia
 
@@ -22,4 +22,4 @@ const isAdmin = async (req, res, next) => {
     next()
 }
 
-module.exports = { autentication, isAdmin }
+module.exports = { authentication, isAdmin }

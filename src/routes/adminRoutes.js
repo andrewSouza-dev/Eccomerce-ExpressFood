@@ -1,13 +1,13 @@
 const express = require('express')
 const router = express.Router()
 const { listUsers, listOrder } = require('../controllers/adminController')
-const { autentication, isAdmin } = require('../middlewares/authMiddleware')
+const { authentication, isAdmin } = require('../middlewares/authMiddleware')
 
 // Todas as rotas abaixo exigem autenticação e perfil de administrador
-router.use(autentication)
+router.use(authentication)
 router.use(isAdmin)
 
 router.get('/pedidos', listOrder)
-router.get('/usuarios', listUsers)
+router.get('/users', listUsers)
 
 module.exports = router
