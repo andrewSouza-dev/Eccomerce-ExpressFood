@@ -15,19 +15,43 @@ datasource db {
 }
 
 
-model user {
-  id Int      @id ,
-  name String @VarChar(255) NOT NULL,
-  email String @Varchar(255) UNIQUE,
-  addres String @VarChar(255) NOT NULL,
-  cep String @VarChar(255) NOT NULL
-
+model User {
+  id         Int       @id @default(autoincrement())
+  name       String    @db.VarChar(255)
+  email      String    @db.VarChar(255) @unique
+  password   String    @db.VarChar(255)
+  orders     Order[]
 }
 
 
-model products {
-  id Int
-  name String @VarChar(255)
-
-
+model Restaurant {
+  id            Int        @id @default(autoincrement())
+  name          String     @db.VarChar(255)
+  description   String     @db.VarChar(255)
+  price         Float     
+  image         String     
+  products      Product[]
 }
+
+
+model Product {
+  id            Int        @id @default(autoincrement())
+  name          String     @db.VarChar(255)
+  description   String     @db.VarChar(255)  
+  price         Float      
+  image         String
+  restaurantId  Int
+  restaurant    Restaurant @relation(fields: [restaurantId], references: [id])
+}
+
+
+model Order {
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  status    String    @db.VarChar(255)
+  total     Float 
+  createdAt DateTime  @default(now())
+  user      User      @relation(fields: [userId], references: [id])
+}
+
+
