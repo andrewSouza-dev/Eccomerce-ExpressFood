@@ -15,8 +15,7 @@ app.use(cors())
 app.use(express.json())
 
 // ROTAS PRINCIPAIS
-app.use('/auth', route)
-app.use('/users/', userRoutes)
+app.use('/users', userRoutes)
 app.use('/products', productRoutes)
 app.use('/restaurants', restaurantRoutes)
 app.use('/orders', orderRoutes)

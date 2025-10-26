@@ -8,6 +8,4 @@ router.post('/', orderController.newOrder)
 router.put('/:id', orderController.updateOrder)
 router.delete('/:id', orderController.deleteOrder)
 
-module.exports = {
-    orderRoutes: router
-}
+module.exports = router

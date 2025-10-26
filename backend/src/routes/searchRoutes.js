@@ -5,6 +5,4 @@ const { buscarPrato } = require('../controllers/searchController')
 // ROTA GET PARA BUSCAR PRATOS POR NOME
 router.get('/pratos', buscarPrato)
 
-module.exports = {
-    searchRoutes:router
-}
+module.exports = router

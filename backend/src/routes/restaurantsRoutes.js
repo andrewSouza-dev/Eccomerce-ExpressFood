@@ -4,6 +4,4 @@ const restaurantController = require('../controllers/restaurantController')
 
 router.get('/proximos', restaurantController.listarProximos)
 
-module.exports = {
-    restaurantRoutes:router
-}
+module.exports = router
