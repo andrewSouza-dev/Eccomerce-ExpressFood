@@ -1,7 +1,7 @@
 const prisma = require('../database')
 
 // Lista todos os produtos
-listAll = async (req, res) => {
+const listAll = async (req, res) => {
 
     const products = await prisma.product.findMany({
         include: { restaurant: true },
@@ -10,14 +10,14 @@ listAll = async (req, res) => {
 }
 
 // Buscar produto por ID
-listById = async (req, res) => {
+const listById = async (req, res) => {
     const id = Number(req.params.id)
     const product = await prisma.product.findUnique({ where: { id } })
     res.json(product)
 }
 
 // Criar um produto
-newProduct = async (req, res) => {
+const newProduct = async (req, res) => {
     const { name, description, price, image, restaurantId } = req.body
 
     const product = await prisma.product.create({
@@ -34,7 +34,7 @@ newProduct = async (req, res) => {
 }
 
 // Atualizar produto
-updateProduct = async (req, res) => {
+const updateProduct = async (req, res) => {
     const id = Number(req.params.id)
     const updateProduct = await prisma.product.update({
         where: { id },
@@ -46,7 +46,7 @@ updateProduct = async (req, res) => {
 
 
 // Deletar um produto
-deleteProduct = async (req, res) => {
+const deleteProduct = async (req, res) => {
     const id = Number(req.params.id)
     await prisma.product.delete({ where: { id } })
     res.json({ message: 'Produto excluído!'})

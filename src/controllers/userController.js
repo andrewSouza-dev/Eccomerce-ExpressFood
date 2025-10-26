@@ -1,7 +1,7 @@
 const prisma = require('../database')
 
 // Lista todos os usuários
-listAll = async (req, res) => {
+const listAll = async (req, res) => {
     const users = await prisma.user.findMany({
         select: { id: true, name: true, email: true },
     })
@@ -9,21 +9,21 @@ listAll = async (req, res) => {
 }
 
 // Buscar usuário por ID
-listById = async (req, res) => {
+const listById = async (req, res) => {
     const id = Number(req.params.id)
     const user = await prisma.user.findUnique({ where: { id }})
     res.json(user)
 }
 
 // Criar um novo usuario 
-newUser = async (req, res) => {
+const newUser = async (req, res) => {
     const { name, email, password } = req.body
     const newUser = await prisma.user.create({ data: { name, email, password } })
     res.json(newUser)
 }
 
 // Atualizar usuário
-updateUser = async (req, res) => {
+const updateUser = async (req, res) => {
     const id = Number(req.params.id)
     const { name, email } = req.body
     const updateUser = await prisma.user.update({
@@ -34,7 +34,7 @@ updateUser = async (req, res) => {
 }
 
 // Exclui um usuário pelo ID
-deleteUser = async (req, res) => {
+const deleteUser = async (req, res) => {
     const id = Number(req.params.id)
     await prisma.user.delete({ where: { id } })
     res.json({ message: 'Usuário excluído com sucesso' })

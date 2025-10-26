@@ -10,4 +10,6 @@ router.post('/imagem', upload.single('file'), (req, res) => {
     res.json({ url: req.file.path }) // Retorna URL da imagem hospedada
 })
 
-module.exports = router
+module.exports = {
+    uploadRoutes:router
+}

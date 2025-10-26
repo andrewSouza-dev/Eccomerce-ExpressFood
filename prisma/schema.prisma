@@ -5,7 +5,7 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
 }
 
 datasource db {
@@ -20,6 +20,7 @@ model User {
   email      String    @db.VarChar(255) @unique
   password   String    @db.VarChar(255)
   orders     Order[]
+  isAdmin    Boolean   @default(false)
 }
 
 
@@ -28,7 +29,9 @@ model Restaurant {
   name          String     @db.VarChar(255)
   description   String     @db.VarChar(255)
   price         Float     
-  image         String     
+  image         String  
+  latitude      Float
+  longitude     Float   
   products      Product[]
 }
 
@@ -41,6 +44,7 @@ model Product {
   image         String
   restaurantId  Int
   restaurant    Restaurant @relation(fields: [restaurantId], references: [id])
+  orderItems    OrderItem[]
 }
 
 
@@ -51,6 +55,17 @@ model Order {
   total     Float 
   createdAt DateTime  @default(now())
   user      User      @relation(fields: [userId], references: [id])
+  items     OrderItem[]
+}
+
+
+model OrderItem {
+  id        Int     @id @default(autoincrement())
+  orderId   Int 
+  productId Int
+  quantity  Int
+  order     Order   @relation(fields: [orderId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
 }
 
 

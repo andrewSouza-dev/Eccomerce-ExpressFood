@@ -10,4 +10,6 @@ router.use(isAdmin)
 router.get('/pedidos', listOrder)
 router.get('/usuarios', listUsers)
 
-module.exports = router
+module.exports = {
+    adminRoutes:router
+}

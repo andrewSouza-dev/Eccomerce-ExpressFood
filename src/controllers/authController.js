@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
 // Função para cadastrar novo usuário
-cadastrar = async (req, res, next) => {
+const cadastrar = async (req, res, next) => {
     try {
         const { name, email, password } = req.body // Extrai dados do corpo da requisição
         const hash = await bcrypt.hash(password, 10) // Criptografa a senha com 10 rounds
@@ -19,7 +19,7 @@ cadastrar = async (req, res, next) => {
 }
 
 // Função para login
-login = async (req, res, next) => {
+const login = async (req, res, next) => {
     try {
         const { email, password } = req.body
         const user = await prisma.user.findUnique({ where: { email } })
