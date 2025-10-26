@@ -1,17 +1,35 @@
-const prisma = require('../generated/prisma')
+const prisma = require('../database')
 
-    listarProdutos = async (req, res) => {
-        const { categoria, busca } = req.query
+// Lista produtos com filtros opcionais
+listarProdutos = async (req, res) => {
+    const { categoria, busca } = req.query
 
-        const produtos = await prisma.product.findMany({
-            where: {
-                ...(categoria && { categoria }),
-                ...busca(busca && { name: { contains: busca, mode: 'insensitive' } })
+    const produtos = await prisma.product.findMany({
+        where: {
+            ...(categoria && { categoria }), // Filtra por categoria se fornecida
+            ...busca(
+                busca && { name: { contains: busca, mode: 'insensitive' } }
+            ), // Busca por nome parcial
+        },
+        include: { restaurant: true },
+    })
+    res.json(produtos)
+}
 
-            },
-            include: { restaurant: true }
-        })
-        res.json(produtos)
-    }
+criarProduto = async (req, res) => {
+    const { name, description, price, image, restaurantId } = req.body
 
-module.exports = listarProdutos
+    const produto = await prisma.product.create({
+        data: {
+            name, 
+            description,
+            price: parseFloat(price),
+            image,
+            restaurantId
+        }
+    })
+
+    res.json(produto)
+}
+
+module.exports = { listarProdutos, criarProduto }

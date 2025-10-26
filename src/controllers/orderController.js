@@ -1,18 +1,19 @@
-const prisma = require('../generated/prisma')
+const prisma = require('../database')
 
-    criarPedido = async (req, res) => {
-        const { produtos, total } = req.body
+// Cria um novo pedido (rota protegida)
+criarPedido = async (req, res) => {
+    const { produtos, total } = req.body
 
-        const pedido = await prisma.order.create({
-            data: {
-                userId: req.user.id,
-                status: 'PENDENDTE',
-                total,
-                createdAt: new Date()
-            }
-        })
+    const pedido = await prisma.order.create({
+        data: {
+            userId: req.user.id, // Usa ID do usuário autenticado
+            status: 'PENDENTE', // Define status inicial
+            total,
+            createdAt: new Date(), // Define data atual
+        },
+    })
 
-        res.json(pedido)
-    }
+    res.json(pedido)
+}
 
 module.exports = criarPedido

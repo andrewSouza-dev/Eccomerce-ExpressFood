@@ -1,18 +1,22 @@
 const jwt = require('jsonwebtoken')
 const prisma = require('../generated/prisma')
 
-module.exports = async (req, res, next) => {
-    const token = req.headers.authorization?.split('')[1]
-    if(!token) return res.status(401).json({ error: 'Token ausente' })
+// Middleware para proteger as rotas
+authMiddleware = async (req, res, next) => {
+    const token = req.headers.authorization?.split('')[1] // Extrai token do header Authorization
+    if (!token) return res.status(401).json({ error: 'Token ausente' }) // Se não houver token, bloqueia
 
     try {
-        const decoded = jwt.verify(token, process.env.JWT_KEY)
+        const decoded = jwt.verify(token, process.env.JWT_KEY) // Verifica e decodifica o token
         req.user = await prisma.user.findUnique({ where: { id: decoded.id } })
         next()
-    } catch (error) {
-        res.status(401).json({ error: 'Token inválido' })
-        next(error)
+    } catch {
+        res.status(401).json({ error: 'Token inválido' }) // Se token for inválido, bloqueia
     }
 }
 
+isAdmin = async (req, res, next) => {
+    
+}
 
+module.exports = { authMiddleware, isAdmin }
