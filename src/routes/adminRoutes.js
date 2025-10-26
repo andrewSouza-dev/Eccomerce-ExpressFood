@@ -1,23 +1,13 @@
-const expres = require('express')
-const router = expres.Router()
-const autenticar = require('../middlewares/authMiddleware')
-const { listarUsuarios, deleteUser }  = require('../controllers/userController')
-const { listarRestaurantes, criarRestaurante } = require('../controllers/restaurantController')
-const { listarProdutos, criarProduto } =  require('../controllers/productController')
+const express = require('express')
+const router = express.Router()
+const { listUsers, listOrder } = require('./controllers/adminController')
+const { autentication, isAdmin } = require('./middlewares/authMiddleware')
 
-// Middleware de autenticação (pode ser expandido para verificar se é admin)
-router.use(autenticar)
+// Todas as rotas abaixo exigem autenticação e perfil de administrador
+router.use(autentication)
+router.use(isAdmin)
 
-// Usuarios
-router.get('/usuarios', listarUsuarios)
-router.delete('/usuarios/:id', deleteUser)
-
-// Restaurantes
-router.get('/restaurantes', listarRestaurantes)
-router.post('/restaurantes', criarRestaurante)
-
-// Produtos 
-router.get('/produtos', listarProdutos)
-router.post('/produtos', criarProduto)
+router.get('/pedidos', listOrder)
+router.get('/usuarios', listUsers)
 
 module.exports = router

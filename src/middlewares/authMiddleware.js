@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken')
 const prisma = require('../generated/prisma')
 
 // Middleware para proteger as rotas
-authMiddleware = async (req, res, next) => {
+autentication = async (req, res, next) => {
     const token = req.headers.authorization?.split('')[1] // Extrai token do header Authorization
     if (!token) return res.status(401).json({ error: 'Token ausente' }) // Se não houver token, bloqueia
 
@@ -16,7 +16,10 @@ authMiddleware = async (req, res, next) => {
 }
 
 isAdmin = async (req, res, next) => {
-    
+    if (!req.user?.isAdmin) {
+        return res.status(403).json({ error: 'Acesso negado: apenas administradores!'})
+    }
+    next()
 }
 
-module.exports = { authMiddleware, isAdmin }
+module.exports = { autentication, isAdmin }
