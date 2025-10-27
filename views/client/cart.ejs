@@ -1,0 +1,15 @@
+<%- include('partials/menu') %>
+
+<h2>Seu carrinho</h2>
+
+<ul>
+  <% cart.forEach(item => { %>
+    <li><%= item.product.name %> - Quantidade: <%= item.quantity %></li>
+  <% }) %>
+</ul>
+
+<form action="/orders/finalizar" method="POST">
+  <button type="submit">Finalizar compra</button>
+</form>
+
+<%- include('partials/footer') %>

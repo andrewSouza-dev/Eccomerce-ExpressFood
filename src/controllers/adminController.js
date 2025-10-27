@@ -1,25 +1,21 @@
-// src/controllers/adminController.js
-const prisma = require('../database')
+const adminService = require('../services/adminService')
 
-// Lista todos os usuários
-const listUsers = async (req, res) => {
-  const users = await prisma.user.findMany({
-    select: { id: true, name: true, email: true, isAdmin: true }
-  })
-  res.json(users)
+const listUsers = async (req, res, next) => {
+  try {
+    const users = await adminService.listUsers()
+    res.json(users)
+  } catch (error) {
+    next(error)
+  }
 }
 
-// Lista todos os pedidos com itens e produtos
-const listOrder = async (req, res) => {
-  const orders = await prisma.order.findMany({
-    include: {
-      user: true,
-      items: {
-        include: { product: true }
-      }
-    }
-  })
-  res.json(orders)
+const listOrder = async (req, res, next) => {
+  try {
+    const orders = await adminService.listOrder()
+    res.json(orders)
+  } catch (error) {
+    next(error)
+  }
 }
 
 module.exports = { listUsers, listOrder }

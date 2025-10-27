@@ -1,55 +1,57 @@
-const prisma = require('../database')
+const productService = require('../services/productService')
 
 // Lista todos os produtos
 const listAll = async (req, res) => {
-
-    const products = await prisma.product.findMany({
-        include: { restaurant: true },
-    })
+  try {
+    const products = await productService.listAll()
     res.json(products)
+  } catch (error) {
+    next(error)
+  }
 }
 
 // Buscar produto por ID
 const listById = async (req, res) => {
+  try {
     const id = Number(req.params.id)
-    const product = await prisma.product.findUnique({ where: { id } })
+    const product = await productService.listById(id)
     res.json(product)
+  } catch (error) {
+    next(error)
+  }
 }
 
 // Criar um produto
 const newProduct = async (req, res) => {
-    const { name, description, price, image, restaurantId } = req.body
-
-    const product = await prisma.product.create({
-        data: {
-            name, 
-            description,
-            price,
-            image,
-            restaurantId
-        }
-    })
-
-    res.json(product)
+  try {
+    const newP = await productService.newProduct(req.body)
+    res.json(newP)
+  } catch (error) {
+    next(error)
+  }
 }
 
 // Atualizar produto
 const updateProduct = async (req, res) => {
+  try {
     const id = Number(req.params.id)
-    const updateProduct = await prisma.product.update({
-        where: { id },
-        data: { name, description, price }
-
-    })
-    res.json(updateProduct)
+    const updateP = await productService.updateProduct(id, req.body)
+    res.json(updateP)
+  } catch (error) {
+    next(error)
+  }
 }
 
 
 // Deletar um produto
 const deleteProduct = async (req, res) => {
+  try {
     const id = Number(req.params.id)
-    await prisma.product.delete({ where: { id } })
-    res.json({ message: 'Produto excluído!'})
+    const deleted = await productService.deleteProduct(id)
+    res.json({ deleted })
+  } catch (error) {
+    next(error)
+  }
 }
 
 module.exports = { listAll, listById, newProduct, updateProduct, deleteProduct }

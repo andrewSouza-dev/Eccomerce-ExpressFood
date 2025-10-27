@@ -1,0 +1,18 @@
+<%- include('partials/menu') %>
+
+<h2>Produtos do restaurante</h2>
+
+<ul>
+  <% produtos.forEach(p => { %>
+    <li>
+      <form action="/cart/adicionar" method="POST">
+        <%= p.name %> - R$ <%= p.price %>
+        <input type="hidden" name="productId" value="<%= p.id %>" />
+        <input type="number" name="quantity" value="1" min="1" />
+        <button type="submit">Adicionar ao carrinho</button>
+      </form>
+    </li>
+  <% }) %>
+</ul>
+
+<%- include('partials/footer') %>

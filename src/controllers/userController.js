@@ -1,43 +1,57 @@
 const prisma = require('../database')
+const userService = require('../services/userService')
 
 // Lista todos os usuários
-const listAll = async (req, res) => {
-    const users = await prisma.user.findMany({
-        select: { id: true, name: true, email: true },
-    })
-    res.json(users)
+const listAll = async (req, res, next) => {
+    try {
+        const users = await userService.listAll()
+        res.json(users)
+    } catch (error) {
+        next(error)
+    }
 }
 
 // Buscar usuário por ID
-const listById = async (req, res) => {
+const listById = async (req, res, next) => {
+  try {
     const id = Number(req.params.id)
-    const user = await prisma.user.findUnique({ where: { id }})
+    const user = await userService.listById(id)
     res.json(user)
+  } catch (error) {
+    next(error)
+  }
 }
 
 // Criar um novo usuario 
 const newUser = async (req, res) => {
-    const { name, email, password } = req.body
-    const newUser = await prisma.user.create({ data: { name, email, password } })
-    res.json(newUser)
+    try {
+    const user = await userService.newUser(req.body)
+    res.json(user)
+  } catch (error) {
+    next(error)
+  }
 }
 
 // Atualizar usuário
 const updateUser = async (req, res) => {
+    try {
     const id = Number(req.params.id)
-    const { name, email } = req.body
-    const updateUser = await prisma.user.update({
-        where: { id },
-        data: { name, email }
-    })
+    const updateUser = await userService.updateUser(id, req.body)
     res.json(updateUser)
+  } catch (error) {
+    next(error)
+  }
 }
 
 // Exclui um usuário pelo ID
 const deleteUser = async (req, res) => {
+    try {
     const id = Number(req.params.id)
-    await prisma.user.delete({ where: { id } })
-    res.json({ message: 'Usuário excluído com sucesso' })
+    const deletedUser = await userService.deleteUser(id)
+    res.json({ deletedUser })
+  } catch (error) {
+    next(error)
+  }
 }
 
 module.exports = { listAll, listById, newUser, updateUser, deleteUser }

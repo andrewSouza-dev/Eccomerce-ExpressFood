@@ -1,11 +1,15 @@
 const express = require('express')
 const router = express.Router()
 const productController = require('../controllers/productController')
+const { authentication, isAdmin } = require('../middlewares/authMiddleware')
 
+// ROTAS PUBLICAS
 router.get('/', productController.listAll)
 router.get('/:id', productController.listById)
-router.post('/', productController.newProduct)
-router.put('/:id', productController.updateProduct)
-router.delete('/:id', productController.deleteProduct)
+
+// ROTAS PROTEGIDAS ADMIN
+router.post('/', authentication, isAdmin, productController.newProduct)
+router.put('/:id', authentication, isAdmin, productController.updateProduct)
+router.delete('/:id', authentication, isAdmin, productController.deleteProduct)
 
 module.exports = router

@@ -1,99 +1,52 @@
-const prisma = require('../database')
+const orderService = require('../services/orderService')
 
-// Lista todos os pedidos
-const listAll = async (req, res) => {
+const listAll = async (req, res, next) => {
   try {
-    const orders = await prisma.order.findMany({ 
-      where: { userId: req.user.id },
-      include: { product: true } })
+    const orders = await orderService.listAll()
     res.json(orders)
   } catch (error) {
-    res.status(500).json({ error: 'Erro interno no servidor' })
+    next(error)
   }
-    
 }
 
-// Lista um pedido por ID
-const listById = async (req, res) => {
+const listById = async (req, res, next) => {
   try {
     const id = Number(req.params.id)
-    const order = await prisma.order.findUnique({ where: { id } })
-    if (!order || order.userId !== req.user.id) {
-    return res.status(403).json({ error: 'Acesso negado ao pedido' })
-    }
+    const order = await orderService.listById(id)
     res.json(order)
   } catch (error) {
-    res.status(500).json({ error: 'Erro interno no servidor' })
+    next(error)
   }
-    
 }
 
-// Cria um pedido
-const newOrder = async (req, res) => {
+const newOrder = async (req, res, next) => {
   try {
-     const { items } = req.body // items = [{ productId, quantity }]
     const userId = req.user.id
-  
-  // Calcula o total com base nos produtos
-  const produtos = await prisma.product.findMany({
-    where: { id: { in: items.map(i => i.productId) } }
-  })
-
-  const total = produtos.reduce((acc, p) => {
-    const item = items.find(i => i.productId === p.id)
-    return acc + p.price * item.quantity
-  }, 0)
-
-  const order = await prisma.order.create({
-    data: {
-      userId,
-      status: 'pendente',
-      total,
-      items: {
-        create: items.map(item => ({
-          productId: item.productId,
-          quantity: item.quantity
-        }))
-      }
-    },
-    include: { items: true }
-  })
-
-  res.json(order)
+    const newO = await orderService.newOrder({ userId, items: req.body.items })
+    res.status(201).json(newO)
   } catch (error) {
-    res.status(500).json({ error: 'Erro interno no servidor' })
+    next(error)
   }
 }
 
-// Atualiza pedido
-const updateOrder = async (req, res) => {
+const updateOrder = async (req, res, next) => {
   try {
     const id = Number(req.params.id)
-    const { userId, status, total } = req.body
-    const updateOrder = await prisma.order.update({ 
-        where: { id },
-        data: { status, total }
-    })
-    if (!order || order.userId !== req.user.id) {
-    return res.status(403).json({ error: 'Acesso negado ao pedido' })
-}
-    res.json(updateOrder)
+    const updateO = await orderService.updateOrder(id, req.body)
+    res.json(updateO)
   } catch (error) {
-    res.status(500).json({ error: 'Erro interno no servidor' })
+    next(error)
   }
-    
 }
 
-// Deleta um pedido
-const deleteOrder = async (req, res) => {
+const deleteOrder = async (req, res, next) => {
   try {
     const id = Number(req.params.id)
-    await prisma.order.delete({ where: { id } })
-    res.json({ message: 'Pedido excluído!'})
+    const deleted = await orderService.deleteOrder(id)
+    res.json({ deleted })
   } catch (error) {
-    res.status(500).json({ error: 'Erro interno no servidor' })
+    next(error)
   }
-    
 }
 
 module.exports = { listAll, listById, newOrder, updateOrder, deleteOrder }

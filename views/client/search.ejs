@@ -1,0 +1,14 @@
+<%- include('partials/menu') %>
+
+<h2>Resultados para "<%= query %>"</h2>
+
+<ul>
+  <% produtos.forEach(p => { %>
+    <li>
+      <strong><%= p.name %></strong> - Restaurante: 
+      <a href="/restaurante/<%= p.restaurant.id %>"><%= p.restaurant.name %></a>
+    </li>
+  <% }) %>
+</ul>
+
+<%- include('partials/footer') %>

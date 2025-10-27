@@ -3,12 +3,13 @@ const router = express.Router()
 const orderController = require('../controllers/orderController')
 const { authentication } = require('../middlewares/authMiddleware')
 
+router.use(authentication)
 
-router.get('/', authentication, orderController.listAll)
-router.get('/:id', authentication, orderController.listById)
-router.post('/', authentication, orderController.newOrder)
-router.put('/:id', authentication, orderController.updateOrder)
-router.delete('/:id', authentication, orderController.deleteOrder)
+router.get('/', orderController.listAll)
+router.get('/:id', orderController.listById)
+router.post('/', orderController.newOrder)
+router.put('/:id', orderController.updateOrder)
+router.delete('/:id', orderController.deleteOrder)
 
 
 module.exports = router

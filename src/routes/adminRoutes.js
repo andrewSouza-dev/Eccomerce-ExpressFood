@@ -7,7 +7,7 @@ const { authentication, isAdmin } = require('../middlewares/authMiddleware')
 router.use(authentication)
 router.use(isAdmin)
 
-router.get('/pedidos', listOrder)
+router.get('/orders', listOrder)
 router.get('/users', listUsers)
 
 module.exports = router

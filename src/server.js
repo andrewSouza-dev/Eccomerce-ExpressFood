@@ -26,13 +26,13 @@ app.use(express.static('public'))
 // Configuração do view engine
 app.set('view engine', 'ejs')
 
-// Rotas da API
-app.use('/users', userRoutes)
-app.use('/products', productRoutes)
-app.use('/restaurants', restaurantRoutes)
-app.use('/orders', orderRoutes)
-app.use('/buscar', searchRoutes)
-app.use('/admin', adminRoutes)
+// Container de rotas
+const routes = require('./container')
+app.use(routes)
+
+// Middleware de erro
+const errorHandler = require('./middlewares/errorHandler')
+app.use(errorHandler)
 
 // Rotas de views
 app.use('/', viewsRoutes)

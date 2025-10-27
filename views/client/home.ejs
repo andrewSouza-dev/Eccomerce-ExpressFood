@@ -1,0 +1,16 @@
+<%- include('partials/menu') %>
+
+<h2>Restaurantes próximos</h2>
+
+<form action="/buscar/pratos" method="GET">
+  <input type="text" name="nome" placeholder="Buscar prato..." required />
+  <button type="submit">Buscar</button>
+</form>
+
+<ul>
+  <% restaurantes.forEach(r => { %>
+    <li><a href="/restaurante/<%= r.id %>"><%= r.name %></a></li>
+  <% }) %>
+</ul>
+
+<%- include('partials/footer') %>

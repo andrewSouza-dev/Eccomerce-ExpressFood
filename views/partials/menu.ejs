@@ -1,17 +1,8 @@
-<nav class="navbar">
-  <a href="/" class="logo">FoodExpress</a>
-
-  <div class="menu-toggle" id="mobile-menu">
-    <span></span>
-    <span></span>
-    <span></span>
-  </div>
-
-  <ul class="nav-links">
-    <li><a href="/home">Home</a></li>
-    <li><a href="/buscar/pratos">Buscar</a></li>
-    <li><a href="/cart">Carrinho</a></li>
-    <li><a href="/users/login">Login</a></li>
-    <li><a href="/users/register">Registrar</a></li>
-  </ul>
+<nav>
+  <a href="/home">Home</a>
+  <% if (user?.isAdmin) { %>
+    <a href="/admin">Admin</a>
+  <% } %>
+  <a href="/cart">Carrinho</a>
+  <a href="/logout">Sair</a>
 </nav>
