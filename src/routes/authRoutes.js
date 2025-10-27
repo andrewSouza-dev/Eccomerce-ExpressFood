@@ -1,8 +1,13 @@
 const express = require('express')
 const router = express.Router()
-const { cadastrar, login } = require('../controllers/authController')
+const authController = require('../controllers/authController')
 
-router.post('/login', login)
-router.post('/cadastro', cadastrar)
+// Views
+router.get('/cadastro', authController.cadastroView)
+router.get('/login', authController.loginView)
+
+// Ações
+router.post('/cadastro', authController.cadastrar)
+router.post('/login', authController.login)
 
 module.exports = router

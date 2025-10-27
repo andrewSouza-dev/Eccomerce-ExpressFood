@@ -3,37 +3,38 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const HttpError = require('../errors/HttpError')
 
-const cadastrar = async ({ name, email, password }) => {
-  const hash = await bcrypt.hash(password, 10)
-
+const cadastrar = async (req, res, next) => {
   try {
-    const user = await prisma.user.create({
-      data: { name, email, password: hash }
-    })
+    const userData = {
+      ...req.body,
+      isAdmin: req.body.isAdmin === 'true' // converte string para boolean
+    }
 
-    return {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      isAdmin: user.isAdmin
-    }
+    const user = await authService.cadastrar(userData)
+    res.render('cadastroSucesso', { user })
   } catch (error) {
-    if (error.code === 'P2002') {
-      throw new HttpError(409, 'E-mail já cadastrado')
-    }
-    throw error
+    next(error)
   }
 }
 
 const login = async ({ email, password }) => {
   const user = await prisma.user.findUnique({ where: { email } })
-  if (!user || !(await bcrypt.compare(password, user.password))) {
+  if (!user) {
+    console.log('Usuário não encontrado')
     throw new HttpError(401, 'Credenciais inválidas')
   }
 
-  const token = jwt.sign({ 
-    id: user.id, isAdmin: user.isAdmin },
-    process.env.JWT_KEY, 
+  const senhaValida = await bcrypt.compare(password, user.password)
+  if (!senhaValida) {
+    console.log('Senha inválida')
+    throw new HttpError(401, 'Credenciais inválidas')
+  }
+
+  console.log('Usuário autenticado:', user)
+
+  const token = jwt.sign(
+    { id: user.id, isAdmin: user.isAdmin },
+    process.env.JWT_KEY,
     { expiresIn: '1d' }
   )
 
@@ -47,5 +48,6 @@ const login = async ({ email, password }) => {
     }
   }
 }
+
 
 module.exports = { cadastrar, login }

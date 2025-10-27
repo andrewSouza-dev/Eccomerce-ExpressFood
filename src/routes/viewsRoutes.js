@@ -3,8 +3,10 @@ const router = express.Router()
 const viewsController = require('../controllers/viewsController')
 const { authentication, isAdmin } = require('../middlewares/authMiddleware')
 
+// Página inicial
+router.get('/', viewsController.index)
+
 // Login e logout
-router.get('/login', viewsController.loginPage)
 router.post('/login', viewsController.login)
 router.get('/logout', authentication, viewsController.logout)
 

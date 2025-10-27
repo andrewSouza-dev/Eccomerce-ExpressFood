@@ -1,32 +1,11 @@
-<%- include('partials/menu') %>
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-  <meta charset="UTF-8" />
-  <title>FoodExpress - Login</title>
-  <link rel="stylesheet" href="/styles.css" />
-</head>
-<body>
-  <div class="container">
-    <h1>Bem-vindo ao FoodExpress 🍽️</h1>
 
-    <div class="form-container">
-      <form action="/login" method="POST">
-        <h2>Login</h2>
-        <input type="email" name="email" placeholder="E-mail" required />
-        <input type="password" name="password" placeholder="Senha" required />
-        <button type="submit">Entrar</button>
-      </form>
 
-      <form action="/auth/cadastro" method="POST">
-        <h2>Cadastro</h2>
-        <input type="text" name="name" placeholder="Nome completo" required />
-        <input type="email" name="email" placeholder="E-mail" required />
-        <input type="password" name="password" placeholder="Senha" required />
-        <button type="submit">Cadastrar</button>
-      </form>
-    </div>
-  </div>
-</body>
-</html>
+<h1>Bem-vindo ao FoodExpress 🍽️</h1>
+<p>Escolha uma opção abaixo:</p>
 
+<div class="button-group">
+  <a href="/auth/login" class="btn">Login</a>
+  <a href="/auth/cadastro" class="btn">Cadastro</a>
+</div>
+
+<%- include('partials/footer') %>

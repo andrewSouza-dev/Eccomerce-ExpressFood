@@ -3,13 +3,7 @@ const cors = require('cors')
 const session = require('express-session') // <-- sessão
 require('dotenv').config()
 
-// Importando rotas
-const userRoutes = require('./routes/userRoutes')
-const productRoutes = require('./routes/productRoutes')
-const restaurantRoutes = require('./routes/restaurantsRoutes')
-const orderRoutes = require('./routes/orderRoutes')
-const searchRoutes = require('./routes/searchRoutes')
-const adminRoutes = require('./routes/adminRoutes')
+// Importando rotas das views
 const viewsRoutes = require('./routes/viewsRoutes')
 
 const app = express()
@@ -33,9 +27,6 @@ app.use(routes)
 // Middleware de erro
 const errorHandler = require('./middlewares/errorHandler')
 app.use(errorHandler)
-
-// Rotas de views
-app.use('/', viewsRoutes)
 
 // Rota padrão 404
 app.use((req, res) => {

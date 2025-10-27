@@ -1,4 +1,16 @@
 const prisma = require('../database')
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
+
+const autenticarUsuario = async (email, password) => {
+  const user = await prisma.user.findUnique({ where: { email } })
+  if (!user || !(await bcrypt.compare(password, user.password))) {
+    return null
+  }
+
+  const token = jwt.sign({ id: user.id }, process.env.JWT_KEY)
+  return { token, user }
+}
 
 // Home e busca
 const listarRestaurantesProximos = async () => {
@@ -81,6 +93,7 @@ const excluirUsuario = async (id) => {
 }
 
 module.exports = {
+  autenticarUsuario,
   listarRestaurantesProximos,
   buscarPratos,
   buscarProdutosDoRestaurante,

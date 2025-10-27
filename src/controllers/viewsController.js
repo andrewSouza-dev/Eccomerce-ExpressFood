@@ -2,30 +2,47 @@ const viewsService = require('../services/viewsService')
 const jwt = require('jsonwebtoken')
 
 // Login
-const loginPage = (req, res) => res.render('login')
-
-const login = async (req, res) => {
-  const { email, password } = req.body
-  const user = await prisma.user.findUnique({ where: { email } })
-  if (!user || user.password !== password) return res.redirect('/login')
-
-  const token = jwt.sign({ id: user.id }, process.env.JWT_KEY)
-  req.session.token = token
-  req.session.user = user
-  res.redirect(user.isAdmin ? '/admin' : '/home')
+const index = (req, res) => {
+  try {
+    res.render('index')
+  } catch (error) {
+    console.error('Erro ao renderizar index:', error)
+    next(error)
+  }
 }
 
+
+const login = async (req, res, next) => {
+  try {
+    const { email, password } = req.body
+    const result = await viewsService.autenticarUsuario(email, password)
+
+    if (!result) {
+      return res.redirect('/login')
+    }
+
+    req.session.token = result.token
+    req.session.user = result.user
+    res.redirect(result.user.isAdmin ? '/admin' : '/home')
+  } catch (error) {
+    console.error('Erro no login:', error)
+    next(error)
+  }
+}
+
+
 const logout = (req, res) => {
-  req.session.destroy(() => res.redirect('/login'))
+  req.session.destroy(() => res.redirect('/'))
 }
 
 // Home
-const home = async (req, res, next) => {
-  try {
-    const restaurantes = await viewsService.listarRestaurantesProximos()
-    res.render('home', { restaurantes, user: req.user })
-  } catch (error) {
-    next(error)
+const home = (req, res) => {
+  const user = req.user
+
+  if (user.isAdmin) {
+    res.render('auth/dashboardAdmin', { user })
+  } else {
+    res.render('auth/dashboardUser', { user })
   }
 }
 
@@ -144,7 +161,7 @@ const excluirPedido = async (req, res, next) => {
 }
 
 module.exports = {
-  loginPage,
+  index,
   login,
   logout,
   home,

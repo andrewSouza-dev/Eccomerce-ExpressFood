@@ -1,6 +1,6 @@
 <nav>
-  <a href="/home">Home</a>
-  <% if (user?.isAdmin) { %>
+  <a href="/">Home</a>
+  <% if (typeof user !== 'undefined' && user?.isAdmin) { %>
     <a href="/admin">Admin</a>
   <% } %>
   <a href="/cart">Carrinho</a>
