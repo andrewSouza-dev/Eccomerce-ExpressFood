@@ -3,17 +3,21 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const HttpError = require('../errors/HttpError')
 
-const cadastrar = async (req, res, next) => {
-  try {
-    const userData = {
-      ...req.body,
-      isAdmin: req.body.isAdmin === 'true' // converte string para boolean
-    }
+const cadastrar = async (userData) => {
+  const hashedPassword = await bcrypt.hash(userData.password, 10)
 
-    const user = await authService.cadastrar(userData)
-    res.render('cadastroSucesso', { user })
-  } catch (error) {
-    next(error)
+  const user = await prisma.user.create({
+    data: {
+      name: userData.name,
+      email: userData.email,
+      password: hashedPassword
+    }
+  })
+
+  return {
+    id: user.id,
+    name: user.name,
+    email: user.email
   }
 }
 
@@ -33,7 +37,7 @@ const login = async ({ email, password }) => {
   console.log('Usuário autenticado:', user)
 
   const token = jwt.sign(
-    { id: user.id, isAdmin: user.isAdmin },
+    { id: user.id },
     process.env.JWT_KEY,
     { expiresIn: '1d' }
   )
@@ -43,8 +47,7 @@ const login = async ({ email, password }) => {
     user: {
       id: user.id,
       name: user.name,
-      email: user.email,
-      isAdmin: user.isAdmin
+      email: user.email
     }
   }
 }

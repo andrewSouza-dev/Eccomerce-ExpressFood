@@ -1,6 +1,15 @@
-<%- include('partials/menu') %>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Erro</title>
+</head>
+<body>
+  <h1>Ocorreu um erro</h1>
+  <p><strong>Status:</strong> <%= status %></p>
+  <p><strong>Mensagem:</strong> <%= message %></p>
 
-<h2>Ocorreu um erro</h2>
-<p><%= error.message %></p>
 
-<%- include('partials/footer') %>
+  <a href="/">Voltar para a página inicial</a>
+</body>
+</html>

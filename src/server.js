@@ -1,37 +1,51 @@
 const express = require('express')
 const cors = require('cors')
-const session = require('express-session') // <-- sessão
+const session = require('express-session')
+const path = require('path')
 require('dotenv').config()
-
-// Importando rotas das views
-const viewsRoutes = require('./routes/viewsRoutes')
 
 const app = express()
 
-// Middlewares
+// Middlewares globais
 app.use(cors())
 app.use(express.json())
-app.use(express.urlencoded({ extended: true })) // para capturar forms
-app.use(session({ secret: 'foodsecret', resave: false, saveUninitialized: true }))
+app.use(express.urlencoded({ extended: true }))
+app.use(session({
+  secret: 'foodsecret',
+  resave: false,
+  saveUninitialized: true
+}))
 
-// Para tornar a pasta public estatica e facilitar o acesso
+// Pasta pública
 app.use(express.static('public'))
 
-// Configuração do view engine
+// View engine
 app.set('view engine', 'ejs')
 
-// Container de rotas
+app.set('views', path.join(__dirname, '../views'))
+
+// Rotas
 const routes = require('./container')
 app.use(routes)
 
-// Middleware de erro
-const errorHandler = require('./middlewares/errorHandler')
-app.use(errorHandler)
-
-// Rota padrão 404
+// Rota 404 (deve vir antes do middleware de erro)
 app.use((req, res) => {
+  // Se for navegador, renderiza uma view
+  if (req.accepts('html')) {
+    return res.status(404).render('error/error', {
+      status: 404,
+      message: 'Página não encontrada',
+      stack: null
+    })
+  }
+
+  // Se for API, retorna JSON
   res.status(404).json({ message: 'Rota não encontrada' })
 })
+
+// Middleware de erro (deve ser o último)
+const errorHandler = require('./middlewares/errorHandler')
+app.use(errorHandler)
 
 // Porta
 const PORT = process.env.PORT || 3000

@@ -52,45 +52,7 @@ const salvarPedido = async (userId, cart) => {
   })
 }
 
-// Admin
-const listarUsuarios = async () => {
-  return await prisma.user.findMany()
-}
 
-const listarPedidos = async () => {
-  return await prisma.order.findMany({
-    include: {
-      user: true,
-      items: { include: { product: true } }
-    }
-  })
-}
-
-const atualizarPedido = async (id, status) => {
-  return await prisma.order.update({
-    where: { id: Number(id) },
-    data: { status }
-  })
-}
-
-const excluirPedido = async (id) => {
-  return await prisma.order.delete({ where: { id: Number(id) } })
-}
-
-const criarUsuario = async (data) => {
-  return await prisma.user.create({ data })
-}
-
-const atualizarUsuario = async (id, data) => {
-  return await prisma.user.update({
-    where: { id: Number(id) },
-    data
-  })
-}
-
-const excluirUsuario = async (id) => {
-  return await prisma.user.delete({ where: { id: Number(id) } })
-}
 
 module.exports = {
   autenticarUsuario,
@@ -98,12 +60,5 @@ module.exports = {
   buscarPratos,
   buscarProdutosDoRestaurante,
   buscarProdutoPorId,
-  salvarPedido,
-  listarUsuarios,
-  listarPedidos,
-  atualizarPedido,
-  excluirPedido,
-  criarUsuario,
-  atualizarUsuario,
-  excluirUsuario
+  salvarPedido
 }

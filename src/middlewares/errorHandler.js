@@ -1,14 +1,19 @@
-// middlewares/errorHandler.js
-const HttpError = require('../errors/HttpError')
-
 const errorHandler = (err, req, res, next) => {
-    if (err instanceof HttpError) {
-    return res.status(err.status).json({ error: err.message })
+  const status = err.status || 500
+  const message = err.message || 'Erro interno no servidor'
+
+  console.error('Erro capturado:', err)
+
+  // Se for requisição HTML (navegador), renderiza a view de erro
+  if (req.accepts('html')) {
+    return res.status(status).render('error/error', {
+      status,
+      message,
+    })
   }
 
-  
-  // Erro genérico
-  res.status(500).json({ error: 'Erro interno no servidor' })
+  // Se for requisição API (JSON)
+  res.status(status).json({ error: message })
 }
 
-module.exports = errorHandler
+module.exports =  errorHandler 

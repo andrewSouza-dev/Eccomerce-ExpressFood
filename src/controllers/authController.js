@@ -9,10 +9,8 @@ const cadastroView = (req, res) => {
 const cadastrar = async (req, res, next) => {
   try {
     const userData = {
-      ...req.body,
-      isAdmin: req.body.isAdmin === 'true' // converte string para boolean
+      ...req.body
     }
-
     const user = await authService.cadastrar(userData)
     res.render('cadastroSucesso', { user })
   } catch (error) {
