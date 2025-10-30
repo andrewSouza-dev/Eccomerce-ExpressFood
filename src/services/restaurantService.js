@@ -1,7 +1,7 @@
 const prisma = require('../database')
 const HttpError = require('../errors/HttpError')
 
-// Função para calcular distância entre dois pontos (Haversine)
+// Função Haversine: calcula distância entre 2 coordenadas (em km)
 const haversine = (lat1, lon1, lat2, lon2) => {
   const toRad = deg => (deg * Math.PI) / 180
   const R = 6371 // km
@@ -14,17 +14,22 @@ const haversine = (lat1, lon1, lat2, lon2) => {
   return R * c
 }
 
+// Lista restaurantes próximos (até 10 km)
 const listarProximos = async (userLat, userLon) => {
-  if (!userLat || !userLon) throw new HttpError(400, 'Coordenadas de localização ausentes')
+  if (!userLat || !userLon) throw new HttpError(400, 'Coordenadas ausentes')
 
-  const restaurantes = await prisma.restaurant.findMany()
+  const restaurantes = await prisma.restaurant.findMany({
+    include: { products: true }
+  })
+
+  if (!restaurantes.length) throw new HttpError(404, 'Nenhum restaurante encontrado')
 
   const proximos = restaurantes
     .map(r => ({
       ...r,
       distancia: haversine(userLat, userLon, r.latitude, r.longitude)
     }))
-    .filter(r => r.distancia <= 10) // Exemplo: até 10km
+    .filter(r => r.distancia <= 10)
     .sort((a, b) => a.distancia - b.distancia)
 
   return proximos

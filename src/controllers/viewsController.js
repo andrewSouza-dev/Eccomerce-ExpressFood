@@ -1,117 +1,137 @@
 const viewsService = require('../services/viewsService')
-const jwt = require('jsonwebtoken')
 
-// Pagina de inicio
-const index = (req, res) => {
-  try {
-    res.render('index')
-  } catch (error) {
-    console.error('Erro ao renderizar index:', error)
-    next(error)
-  }
-}
+// PAGINA DE LOGIN E CADASTRO
+const index = (req, res) => res.render('index')
 
+// PAGINA DE LOGIN
+const login = (req, res) => res.redirect('/auth/login')
 
-
-// Login
-const login = async (req, res, next) => {
-  try {
-    const { email, password } = req.body
-    const result = await viewsService.autenticarUsuario(email, password)
-
-    if (!result) {
-      return res.redirect('/login')
-    }
-
-    req.session.token = result.token
-    req.session.user = result.user
-    res.redirect(result.user.isAdmin ? '/admin' : '/home')
-  } catch (error) {
-    console.error('Erro no login:', error)
-    next(error)
-  }
-}
-
+// SAIR
 const logout = (req, res) => {
-  req.session.destroy(() => res.redirect('/'))
+    req.session.destroy(() => res.redirect('/'))
 }
 
+// Home: mostra restaurantes próximos e campo de busca
+const home = async (req, res, next) => {
+    try {
+        const { lat, lon } = req.query
+        const user = req.session.user
+        let restaurantes = []
 
+        if (lat && lon) {
+            restaurantes = await restaurantService.listarProximos(
+                parseFloat(lat),
+                parseFloat(lon)
+            )
+        }
 
-// Home
-const home = (req, res) => {
-  const user = req.user
-
-  if (user.isAdmin) {
-    res.render('auth/dashboardAdmin', { user })
-  } else {
-    res.render('auth/dashboardUser', { user })
-  }
+        res.render('client/home', { user, restaurantes })
+    } catch (error) {
+        next(error)
+    }
 }
 
-
-
-// Busca
 const buscarPratos = async (req, res, next) => {
-  try {
-    const { nome } = req.query
-    const produtos = await viewsService.buscarPratos(nome)
-    res.render('client/search', { produtos, query: nome })
-  } catch (error) {
-    next(error)
-  }
+    try {
+        const { nome, lat, lon } = req.query
+        const produtos = await searchService.buscarPrato(
+            nome,
+            parseFloat(lat),
+            parseFloat(lon)
+        )
+        res.render('client/busca', { query: nome, produtos })
+    } catch (error) {
+        next(error)
+    }
 }
 
 const verRestaurante = async (req, res, next) => {
-  try {
-    const { id } = req.params
-    const produtos = await viewsService.buscarProdutosDoRestaurante(id)
-    res.render('client/restaurante', { produtos, user: req.user })
-  } catch (error) {
-    next(error)
-  }
+    try {
+        const restaurante = await prisma.restaurant.findUnique({
+            where: { id: Number(req.params.id) },
+            include: { products: true },
+        })
+
+        if (!restaurante) throw new HttpError(404, 'Restaurante não encontrado')
+
+        res.render('client/restaurante', { produtos: restaurante.products })
+    } catch (error) {
+        next(error)
+    }
 }
 
-
-
-// Carrinho
+// Carrinho em sessão
 const verCarrinho = (req, res) => {
-  res.render('client/cart', { cart: req.session.cart || [], user: req.user })
+    const cart = req.session.cart || []
+    res.render('client/cart', { cart })
 }
 
+// ADICIONA AO CARRINHO
 const adicionarAoCarrinho = async (req, res, next) => {
-  try {
-    if (!req.session.cart) req.session.cart = []
-    const { productId, quantity } = req.body
-    const product = await viewsService.buscarProdutoPorId(productId)
-    req.session.cart.push({ product, quantity: Number(quantity) })
-    res.redirect('client/cart')
-  } catch (error) {
-    next(error)
-  }
+    try {
+        const productId = Number(req.body.productId)
+        const quantity = Number(req.body.quantity) || 1
+
+        const product = await viewsService.buscarProdutoPorId(productId)
+        if (!product) return res.status(404).send('Produto não encontrado')
+
+        if (!req.session.cart) req.session.cart = []
+
+        // se já existe, soma quantidade
+        const idx = req.session.cart.findIndex(
+            (i) => i.product.id === product.id
+        )
+        if (idx >= 0) {
+            req.session.cart[idx].quantity += quantity
+        } else {
+            req.session.cart.push({ product, quantity })
+        }
+
+        return res.redirect('back')
+    } catch (error) {
+        next(error)
+    }
+}
+
+// REMOVER DO CARRINHO
+const removerDoCarrinho = (req, res) => {
+    const productId = Number(req.body.productId)
+    if (!req.session.cart) return res.redirect('/cart')
+
+    req.session.cart = req.session.cart.filter(
+        (i) => i.product.id !== productId
+    )
+    res.redirect('/cart')
 }
 
 const finalizarPedido = async (req, res, next) => {
-  try {
-    await viewsService.salvarPedido(req.user.id, req.session.cart)
-    req.session.cart = []
-    res.render('client/confirmacao', { user: req.user })
-  } catch (error) {
-    next(error)
-  }
+    try {
+        const user = req.session.user
+        if (!user) return res.redirect('/auth/login')
+
+        const cart = req.session.cart || []
+        const order = await viewsService.salvarPedido(user.id, cart)
+
+        // limpa carrinho e mostra página de confirmação
+        req.session.cart = []
+        res.render('client/confirmacao', {
+            order,
+            message: 'PEDIDO FINALIZADO!',
+        })
+    } catch (error) {
+        next(error)
+    }
 }
 
-
-
-
 module.exports = {
-  index,
-  login,
-  logout,
-  home,
-  buscarPratos,
-  verRestaurante,
-  verCarrinho,
-  adicionarAoCarrinho,
-  finalizarPedido
+    index,
+    login,
+    logout,
+    home,
+    buscarPratos,
+    verRestaurante,
+    verCarrinho,
+    adicionarAoCarrinho,
+    removerDoCarrinho,
+    finalizarPedido,
 }

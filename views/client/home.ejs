@@ -2,15 +2,47 @@
 
 <h2>Restaurantes próximos</h2>
 
-<form action="/buscar/pratos" method="GET">
+<form id="searchForm" action="/buscar/pratos" method="GET">
   <input type="text" name="nome" placeholder="Buscar prato..." required />
+  <input type="hidden" name="lat" id="lat">
+  <input type="hidden" name="lon" id="lon">
   <button type="submit">Buscar</button>
 </form>
 
-<ul>
-  <% restaurantes.forEach(r => { %>
-    <li><a href="/restaurante/<%= r.id %>"><%= r.name %></a></li>
-  <% }) %>
+<ul id="restaurantList">
+  <% if (restaurantes.length === 0) { %>
+    <li>Nenhum restaurante próximo encontrado.</li>
+  <% } else { %>
+    <% restaurantes.forEach(r => { %>
+      <li>
+        <a href="/restaurante/<%= r.id %>">
+          <%= r.name %> - <%= r.distancia.toFixed(2) %> km
+        </a>
+      </li>
+    <% }) %>
+  <% } %>
 </ul>
+
+<script>
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(position => {
+      const lat = position.coords.latitude
+      const lon = position.coords.longitude
+      document.getElementById('lat').value = lat
+      document.getElementById('lon').value = lon
+
+      const params = new URLSearchParams(window.location.search)
+      if (!params.has('lat') || !params.has('lon')) {
+        params.set('lat', lat)
+        params.set('lon', lon)
+        window.location.search = params.toString()
+      }
+    }, () => {
+      alert('Não foi possível obter sua localização. Restaurantes próximos podem não ser precisos.')
+    })
+  } else {
+    alert('Geolocalização não suportada pelo navegador.')
+  }
+</script>
 
 <%- include('../partials/footer') %>

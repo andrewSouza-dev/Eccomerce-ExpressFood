@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const productController = require('../controllers/productController')
-const { authentication, isAdmin } = require('../middlewares/authMiddleware')
+const { authentication } = require('../middlewares/authMiddleware')
 
 // ROTAS PUBLICAS
 router.get('/', productController.listAll)

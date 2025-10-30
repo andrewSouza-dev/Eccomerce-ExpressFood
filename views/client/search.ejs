@@ -2,13 +2,37 @@
 
 <h2>Resultados para "<%= query %>"</h2>
 
+<form id="searchForm" action="/buscar/pratos" method="GET">
+  <input type="text" name="nome" value="<%= query %>" required />
+  <input type="hidden" name="lat" id="lat">
+  <input type="hidden" name="lon" id="lon">
+  <button type="submit">Buscar</button>
+</form>
+
 <ul>
-  <% produtos.forEach(p => { %>
-    <li>
-      <strong><%= p.name %></strong> - Restaurante: 
-      <a href="/restaurante/<%= p.restaurant.id %>"><%= p.restaurant.name %></a>
-    </li>
-  <% }) %>
+  <% if (produtos.length === 0) { %>
+    <li>Nenhum prato encontrado.</li>
+  <% } else { %>
+    <% produtos.forEach(p => { %>
+      <li>
+        <strong><%= p.name %></strong> - Restaurante: 
+        <a href="/restaurante/<%= p.restaurant.id %>">
+          <%= p.restaurant.name %>
+        </a> - <%= p.distancia ? p.distancia.toFixed(2) + ' km' : '' %>
+      </li>
+    <% }) %>
+  <% } %>
 </ul>
+
+<script>
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(position => {
+      const lat = position.coords.latitude
+      const lon = position.coords.longitude
+      document.getElementById('lat').value = lat
+      document.getElementById('lon').value = lon
+    })
+  }
+</script>
 
 <%- include('../partials/footer') %>
