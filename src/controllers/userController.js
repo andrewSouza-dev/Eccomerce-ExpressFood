@@ -1,14 +1,13 @@
-const prisma = require('../database')
 const userService = require('../services/userService')
 
-// Lista todos os usuários
+// Listar todos os usuários
 const listAll = async (req, res, next) => {
-    try {
-        const users = await userService.listAll()
-        res.json(users)
-    } catch (error) {
-        next(error)
-    }
+  try {
+    const users = await userService.listAll()
+    res.json(users)
+  } catch (error) {
+    next(error)
+  }
 }
 
 // Buscar usuário por ID
@@ -22,36 +21,36 @@ const listById = async (req, res, next) => {
   }
 }
 
-// Criar um novo usuario 
-const newUser = async (req, res) => {
-    try {
-    const user = await userService.newUser(req.body)
-    res.json(user)
+// Criar usuário
+const create = async (req, res, next) => {
+  try {
+    const newUser = await userService.create(req.body)
+    res.json(newUser)
   } catch (error) {
     next(error)
   }
 }
 
 // Atualizar usuário
-const updateUser = async (req, res) => {
-    try {
+const update = async (req, res, next) => {
+  try {
     const id = Number(req.params.id)
-    const updateUser = await userService.updateUser(id, req.body)
-    res.json(updateUser)
+    const updated = await userService.update(id, req.body)
+    res.json(updated)
   } catch (error) {
     next(error)
   }
 }
 
-// Exclui um usuário pelo ID
-const deleteUser = async (req, res) => {
-    try {
+// Deletar usuário
+const remove = async (req, res, next) => {
+  try {
     const id = Number(req.params.id)
-    const deletedUser = await userService.deleteUser(id)
-    res.json({ deletedUser })
+    const deleted = await userService.remove(id)
+    res.json(deleted)
   } catch (error) {
     next(error)
   }
 }
 
-module.exports = { listAll, listById, newUser, updateUser, deleteUser }
+module.exports = { listAll, listById, create, update, remove }

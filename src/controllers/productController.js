@@ -1,7 +1,7 @@
 const productService = require('../services/productService')
 
 // Lista todos os produtos
-const listAll = async (req, res) => {
+const listAll = async (req, res, next) => {
   try {
     const products = await productService.listAll()
     res.json(products)
@@ -11,7 +11,7 @@ const listAll = async (req, res) => {
 }
 
 // Buscar produto por ID
-const listById = async (req, res) => {
+const listById = async (req, res, next) => {
   try {
     const id = Number(req.params.id)
     const product = await productService.listById(id)
@@ -22,9 +22,9 @@ const listById = async (req, res) => {
 }
 
 // Criar um produto
-const newProduct = async (req, res) => {
+const create = async (req, res, next) => {
   try {
-    const newP = await productService.newProduct(req.body)
+    const newP = await productService.create(req.body)
     res.json(newP)
   } catch (error) {
     next(error)
@@ -32,26 +32,25 @@ const newProduct = async (req, res) => {
 }
 
 // Atualizar produto
-const updateProduct = async (req, res) => {
+const update = async (req, res, next) => {
   try {
     const id = Number(req.params.id)
-    const updateP = await productService.updateProduct(id, req.body)
+    const updateP = await productService.update(id, req.body)
     res.json(updateP)
   } catch (error) {
     next(error)
   }
 }
 
-
-// Deletar um produto
-const deleteProduct = async (req, res) => {
+// Deletar produto
+const remove = async (req, res, next) => {
   try {
     const id = Number(req.params.id)
-    const deleted = await productService.deleteProduct(id)
-    res.json({ deleted })
+    const deleted = await productService.remove(id)
+    res.json(deleted)
   } catch (error) {
     next(error)
   }
 }
 
-module.exports = { listAll, listById, newProduct, updateProduct, deleteProduct }
+module.exports = { listAll, listById, create, update, remove }

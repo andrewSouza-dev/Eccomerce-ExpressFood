@@ -3,48 +3,41 @@ const viewsService = require('../services/viewsService')
 // PAGINA DE LOGIN E CADASTRO
 const index = (req, res) => res.render('index')
 
+
 // PAGINA DE LOGIN
 const login = (req, res) => res.redirect('/auth/login')
+
 
 // SAIR
 const logout = (req, res) => {
     req.session.destroy(() => res.redirect('/'))
 }
 
+
 // Home: mostra restaurantes próximos e campo de busca
-const home = async (req, res, next) => {
+const home = async (req, res) => {
     try {
-        const { lat, lon } = req.query
-        const user = req.session.user
-        let restaurantes = []
-
-        if (lat && lon) {
-            restaurantes = await restaurantService.listarProximos(
-                parseFloat(lat),
-                parseFloat(lon)
-            )
-        }
-
-        res.render('client/home', { user, restaurantes })
+        const restaurantes = await viewsService.listarRestaurantes()
+        res.render('home', { restaurantes })
     } catch (error) {
         next(error)
     }
 }
 
+
+// BUSCAR PRATOS
 const buscarPratos = async (req, res, next) => {
     try {
-        const { nome, lat, lon } = req.query
-        const produtos = await searchService.buscarPrato(
-            nome,
-            parseFloat(lat),
-            parseFloat(lon)
-        )
+        const { nome } = req.query
+        const produtos = await searchService.buscarPrato(nome)
         res.render('client/busca', { query: nome, produtos })
     } catch (error) {
         next(error)
     }
 }
 
+
+// MOSTRAR RESTAURANTE
 const verRestaurante = async (req, res, next) => {
     try {
         const restaurante = await prisma.restaurant.findUnique({
@@ -60,11 +53,13 @@ const verRestaurante = async (req, res, next) => {
     }
 }
 
+
 // Carrinho em sessão
 const verCarrinho = (req, res) => {
     const cart = req.session.cart || []
     res.render('client/cart', { cart })
 }
+
 
 // ADICIONA AO CARRINHO
 const adicionarAoCarrinho = async (req, res, next) => {
@@ -93,6 +88,7 @@ const adicionarAoCarrinho = async (req, res, next) => {
     }
 }
 
+
 // REMOVER DO CARRINHO
 const removerDoCarrinho = (req, res) => {
     const productId = Number(req.body.productId)
@@ -104,6 +100,8 @@ const removerDoCarrinho = (req, res) => {
     res.redirect('/cart')
 }
 
+
+// FINALIZAR O PEDIDO
 const finalizarPedido = async (req, res, next) => {
     try {
         const user = req.session.user

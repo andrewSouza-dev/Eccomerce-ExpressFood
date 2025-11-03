@@ -5,9 +5,9 @@ const { authentication } = require('../middlewares/authMiddleware')
 
 // PUBLICAS 
 router.get('/:id', authentication, userController.listById)
-router.post('/', userController.newUser)
-router.put('/:id', authentication, userController.updateUser)
-router.delete('/:id', authentication, userController.deleteUser)
+router.post('/', userController.create)
+router.put('/:id', authentication, userController.update)
+router.delete('/:id', authentication, userController.remove)
 
 module.exports = router
 

@@ -1,5 +1,6 @@
 const orderService = require('../services/orderService')
 
+// Listar todos os pedidos
 const listAll = async (req, res, next) => {
   try {
     const orders = await orderService.listAll()
@@ -9,6 +10,7 @@ const listAll = async (req, res, next) => {
   }
 }
 
+// Buscar pedido por ID
 const listById = async (req, res, next) => {
   try {
     const id = Number(req.params.id)
@@ -19,31 +21,33 @@ const listById = async (req, res, next) => {
   }
 }
 
+// Criar novo pedido
 const newOrder = async (req, res, next) => {
   try {
-    const userId = req.user.id
-    const newO = await orderService.newOrder({ userId, items: req.body.items })
-    res.status(201).json(newO)
+    const order = await orderService.newOrder(req.body)
+    res.json(order)
   } catch (error) {
     next(error)
   }
 }
 
+// Atualizar status do pedido
 const updateOrder = async (req, res, next) => {
   try {
     const id = Number(req.params.id)
-    const updateO = await orderService.updateOrder(id, req.body)
-    res.json(updateO)
+    const updated = await orderService.updateOrder(id, req.body)
+    res.json(updated)
   } catch (error) {
     next(error)
   }
 }
 
+// Deletar pedido
 const deleteOrder = async (req, res, next) => {
   try {
     const id = Number(req.params.id)
     const deleted = await orderService.deleteOrder(id)
-    res.json({ deleted })
+    res.json(deleted)
   } catch (error) {
     next(error)
   }

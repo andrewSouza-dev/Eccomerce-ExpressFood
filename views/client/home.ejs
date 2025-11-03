@@ -1,11 +1,9 @@
 <%- include('../partials/menu') %>
 
-<h2>Restaurantes próximos</h2>
+<h2>Restaurantes</h2>
 
 <form id="searchForm" action="/buscar/pratos" method="GET">
   <input type="text" name="nome" placeholder="Buscar prato..." required />
-  <input type="hidden" name="lat" id="lat">
-  <input type="hidden" name="lon" id="lon">
   <button type="submit">Buscar</button>
 </form>
 
@@ -23,26 +21,6 @@
   <% } %>
 </ul>
 
-<script>
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(position => {
-      const lat = position.coords.latitude
-      const lon = position.coords.longitude
-      document.getElementById('lat').value = lat
-      document.getElementById('lon').value = lon
 
-      const params = new URLSearchParams(window.location.search)
-      if (!params.has('lat') || !params.has('lon')) {
-        params.set('lat', lat)
-        params.set('lon', lon)
-        window.location.search = params.toString()
-      }
-    }, () => {
-      alert('Não foi possível obter sua localização. Restaurantes próximos podem não ser precisos.')
-    })
-  } else {
-    alert('Geolocalização não suportada pelo navegador.')
-  }
-</script>
 
 <%- include('../partials/footer') %>

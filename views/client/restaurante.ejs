@@ -1,7 +1,10 @@
 <%- include('../partials/menu') %>
 
 <h2>Produtos do restaurante</h2>
-
+  <% if (restaurante?.imageUrl) { %>
+  <img src="<%= restaurante.imageUrl %>" alt="<%= restaurante.name %>" width="200" />
+  <% } %>
+<h3><%= restaurante?.name %></h3>
 <ul>
   <% if (produtos.length === 0) { %>
     <li>Este restaurante não possui produtos cadastrados.</li>

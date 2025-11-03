@@ -15,56 +15,65 @@ datasource db {
 
 
 model User {
-  id         Int       @id @default(autoincrement())
-  name       String    @db.VarChar(255)
-  email      String    @db.VarChar(255) @unique
-  password   String    @db.VarChar(255)
-  orders     Order[]
+  id        Int       @id @default(autoincrement())
+  name      String
+  email     String    @unique
+  password  String
+  role      Role      @default(CLIENTE)
+  orders    Order[]
+  cartItems CartItem[]
+  createdAt DateTime  @default(now())
 }
-
 
 model Restaurant {
-  id            Int        @id @default(autoincrement())
-  name          String     @db.VarChar(255)
-  description   String     @db.VarChar(255)
-  price         Float     
-  image         String  
-  latitude      Float
-  longitude     Float   
-  products      Product[]
+  id        Int        @id @default(autoincrement())
+  name      String
+  address   String
+  imagemURL String? 
+  products  Product[]
+  createdAt DateTime   @default(now())
 }
-
 
 model Product {
-  id            Int        @id @default(autoincrement())
-  name          String     @db.VarChar(255)
-  description   String     @db.VarChar(255)  
-  price         Float      
-  image         String
+  id            Int          @id @default(autoincrement())
+  name          String
+  price         Float
   restaurantId  Int
-  restaurant    Restaurant @relation(fields: [restaurantId], references: [id])
+  restaurant    Restaurant   @relation(fields: [restaurantId], references: [id])
+  cartItems     CartItem[]
   orderItems    OrderItem[]
+  imagemURL     String? 
+  createdAt     DateTime     @default(now())
 }
 
+model CartItem {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  productId Int
+  quantity  Int      @default(1)
+  user      User     @relation(fields: [userId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id])
+}
 
 model Order {
-  id        Int       @id @default(autoincrement())
+  id        Int          @id @default(autoincrement())
   userId    Int
-  status    String    @db.VarChar(255)
-  total     Float 
-  createdAt DateTime  @default(now())
-  user      User      @relation(fields: [userId], references: [id])
-  items     OrderItem[]
+  user      User         @relation(fields: [userId], references: [id])
+  items     OrderItem[]      
+  status    String       @default("PENDENTE")
+  createdAt DateTime     @default(now())
 }
-
 
 model OrderItem {
-  id        Int     @id @default(autoincrement())
-  orderId   Int 
+  id        Int      @id @default(autoincrement())
+  orderId   Int
   productId Int
   quantity  Int
-  order     Order   @relation(fields: [orderId], references: [id])
-  product   Product @relation(fields: [productId], references: [id])
+  order     Order    @relation(fields: [orderId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id])
 }
 
-
+enum Role {
+  ADMIN
+  CLIENTE
+}

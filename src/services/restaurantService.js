@@ -1,38 +1,63 @@
 const prisma = require('../database')
 const HttpError = require('../errors/HttpError')
 
-// Função Haversine: calcula distância entre 2 coordenadas (em km)
-const haversine = (lat1, lon1, lat2, lon2) => {
-  const toRad = deg => (deg * Math.PI) / 180
-  const R = 6371 // km
-  const dLat = toRad(lat2 - lat1)
-  const dLon = toRad(lon2 - lon1)
-  const a =
-    Math.sin(dLat / 2) ** 2 +
-    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
-  return R * c
+const listAll = async () => {
+  try {
+    const restaurantes = await prisma.restaurant.findMany({
+      include: { products: true }
+    })
+    return restaurantes
+  } catch (err) {
+    throw new HttpError(500, 'Erro ao listar restaurantes')
+  }
 }
 
-// Lista restaurantes próximos (até 10 km)
-const listarProximos = async (userLat, userLon) => {
-  if (!userLat || !userLon) throw new HttpError(400, 'Coordenadas ausentes')
-
-  const restaurantes = await prisma.restaurant.findMany({
-    include: { products: true }
-  })
-
-  if (!restaurantes.length) throw new HttpError(404, 'Nenhum restaurante encontrado')
-
-  const proximos = restaurantes
-    .map(r => ({
-      ...r,
-      distancia: haversine(userLat, userLon, r.latitude, r.longitude)
-    }))
-    .filter(r => r.distancia <= 10)
-    .sort((a, b) => a.distancia - b.distancia)
-
-  return proximos
+const listById = async (id) => {
+  try {
+    const restaurante = await prisma.restaurant.findUnique({
+      where: { id },
+      include: { products: true }
+    })
+    if (!restaurante) throw new HttpError(404, 'Restaurante não encontrado')
+    return restaurante
+  } catch (err) {
+    if (err instanceof HttpError) throw err
+    throw new HttpError(500, 'Erro ao buscar restaurante')
+  }
 }
 
-module.exports = { listarProximos }
+const create = async (data) => {
+  try {
+    if (!data.name) throw new HttpError(400, 'Nome é obrigatório')
+    const restaurante = await prisma.restaurant.create({ data })
+    return restaurante
+  } catch (err) {
+    if (err instanceof HttpError) throw err
+    throw new HttpError(500, 'Erro ao criar restaurante')
+  }
+}
+
+const update = async (id, data) => {
+  try {
+    const restaurante = await prisma.restaurant.update({
+      where: { id },
+      data
+    })
+    return restaurante
+  } catch (err) {
+    if (err.code === 'P2025') throw new HttpError(404, 'Restaurante não encontrado')
+    throw new HttpError(500, 'Erro ao atualizar restaurante')
+  }
+}
+
+const remove = async (id) => {
+  try {
+    await prisma.restaurant.delete({ where: { id } })
+    return { message: 'Restaurante removido com sucesso' }
+  } catch (err) {
+    if (err.code === 'P2025') throw new HttpError(404, 'Restaurante não encontrado')
+    throw new HttpError(500, 'Erro ao remover restaurante')
+  }
+}
+
+module.exports = { listAll, listById, create, update, remove }

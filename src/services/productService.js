@@ -2,48 +2,64 @@ const prisma = require('../database')
 const HttpError = require('../errors/HttpError')
 
 const listAll = async () => {
-  const products = await prisma.product.findMany({
-    include: { restaurant: true }
-  })
-  return products
-}
-
-
-const listById = async (id) => {
-  const product = await prisma.product.findUnique({ where: { id } })
-  if (!product) throw new HttpError(404, 'Produto não encontrado')
-  return product
-}
-
-
-const newProduct = async ({ name, description, price, image, restaurantId }) => {
   try {
-    const product = await prisma.product.create({
-      data: { name, description, price, image, restaurantId }
+    const produtos = await prisma.product.findMany({
+      include: { restaurant: true }
     })
-    return product
-  } catch (error) {
-    if (error.code === 'P2003') {
-      throw new HttpError(400, 'Restaurante inválido ou inexistente')
-    }
-    throw error
+    return produtos
+  } catch (err) {
+    throw new HttpError(500, 'Erro ao listar produtos')
   }
 }
 
-
-const updateProduct = async (id, { name, description, price }) => {
-  const product = await prisma.product.update({
-    where: { id },
-    data: { name, description, price }
-  })
-  return product
+const listById = async (id) => {
+  try {
+    const produto = await prisma.product.findUnique({
+      where: { id },
+      include: { restaurant: true }
+    })
+    if (!produto) throw new HttpError(404, 'Produto não encontrado')
+    return produto
+  } catch (err) {
+    if (err instanceof HttpError) throw err
+    throw new HttpError(500, 'Erro ao buscar produto')
+  }
 }
 
+const create = async (data) => {
+  try {
+    if (!data.name || !data.price || !data.restaurantId)
+      throw new HttpError(400, 'Campos obrigatórios não informados')
 
-const deleteProduct = async (id) => {
-  await prisma.product.delete({ where: { id } })
-  return { message: 'Produto excluído com sucesso' }
+    const produto = await prisma.product.create({ data })
+    return produto
+  } catch (err) {
+    if (err instanceof HttpError) throw err
+    throw new HttpError(500, 'Erro ao criar produto')
+  }
 }
 
+const update = async (id, data) => {
+  try {
+    const produto = await prisma.product.update({
+      where: { id },
+      data
+    })
+    return produto
+  } catch (err) {
+    if (err.code === 'P2025') throw new HttpError(404, 'Produto não encontrado')
+    throw new HttpError(500, 'Erro ao atualizar produto')
+  }
+}
 
-module.exports = { listAll, listById, newProduct, updateProduct, deleteProduct }
+const remove = async (id) => {
+  try {
+    await prisma.product.delete({ where: { id } })
+    return { message: 'Produto removido com sucesso' }
+  } catch (err) {
+    if (err.code === 'P2025') throw new HttpError(404, 'Produto não encontrado')
+    throw new HttpError(500, 'Erro ao remover produto')
+  }
+}
+
+module.exports = { listAll, listById, create, update, remove }
