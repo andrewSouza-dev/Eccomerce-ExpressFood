@@ -1,0 +1,12 @@
+<%- include('../partials/menu') %>
+
+<h2>Painel Administrativo</h2>
+<p>Bem-vindo, <%= user.name %>!</p>
+
+<ul>
+  <li><a href="/admin/users">Gerenciar usuários</a></li>
+  <li><a href="/admin/restaurantes">Gerenciar restaurantes</a></li>
+  <li><a href="/admin/produtos">Gerenciar produtos</a></li>
+</ul>
+
+<%- include('../partials/footer') %>

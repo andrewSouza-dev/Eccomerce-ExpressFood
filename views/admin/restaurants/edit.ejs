@@ -1,0 +1,10 @@
+
+
+
+<h2>Editar Restaurante</h2>
+<form action="/admin/restaurantes/<%= restaurante.id %>/editar" method="POST">
+  <input type="text" name="name" value="<%= restaurante.name %>" required />
+  <input type="text" name="address" value="<%= restaurante.address %>" required />
+  <input type="text" name="imagemURL" value="<%= restaurante.imagemURL %>" />
+  <button type="submit">Atualizar</button>
+</form>

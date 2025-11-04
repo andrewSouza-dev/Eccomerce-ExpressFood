@@ -4,7 +4,7 @@ const productService = require('../services/productService')
 const listAll = async (req, res, next) => {
   try {
     const products = await productService.listAll()
-    res.json(products)
+    res.render('admin/')
   } catch (error) {
     next(error)
   }
@@ -21,6 +21,14 @@ const listById = async (req, res, next) => {
   }
 }
 
+
+// Exibir formulário de criação
+const novoView = async (req, res) => {
+  const restaurantes = await productService.listarRestaurantes()
+  res.render('admin/produtos/novo', { restaurantes, user: req.session.user })
+}
+
+
 // Criar um produto
 const create = async (req, res, next) => {
   try {
@@ -30,6 +38,20 @@ const create = async (req, res, next) => {
     next(error)
   }
 }
+
+
+// Exibir formulário de edição
+const editarView = async (req, res, next) => {
+  try {
+    const id = Number(req.params.id)
+    const produto = await productService.listById(id)
+    const restaurantes = await productService.listarRestaurantes()
+    res.render('admin/produtos/editar', { produto, restaurantes, user: req.session.user })
+  } catch (error) {
+    next(error)
+  }
+}
+
 
 // Atualizar produto
 const update = async (req, res, next) => {
@@ -42,6 +64,7 @@ const update = async (req, res, next) => {
   }
 }
 
+
 // Deletar produto
 const remove = async (req, res, next) => {
   try {
@@ -53,4 +76,4 @@ const remove = async (req, res, next) => {
   }
 }
 
-module.exports = { listAll, listById, create, update, remove }
+module.exports = { listAll, listById, novoView, create, editarView, update, remove }

@@ -1,0 +1,14 @@
+
+
+<h2>Editar Produto</h2>
+<form action="/admin/produtos/<%= produto.id %>/editar" method="POST">
+  <input type="text" name="name" value="<%= produto.name %>" required />
+  <input type="number" name="price" value="<%= produto.price %>" step="0.01" required />
+  <input type="text" name="imagemURL" value="<%= produto.imagemURL %>" />
+  <select name="restaurantId">
+    <% restaurantes.forEach(r => { %>
+      <option value="<%= r.id %>" <%= r.id === produto.restaurantId ? 'selected' : '' %>><%= r.name %></option>
+    <% }) %>
+  </select>
+  <button type="submit">Atualizar</button>
+</form>

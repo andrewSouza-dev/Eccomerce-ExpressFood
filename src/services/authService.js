@@ -10,14 +10,16 @@ const cadastrar = async (userData) => {
     data: {
       name: userData.name,
       email: userData.email,
-      password: hashedPassword
+      password: hashedPassword,
+      role: userData.role || 'CLIENTE'
     }
   })
 
   return {
     id: user.id,
     name: user.name,
-    email: user.email
+    email: user.email,
+    role: user.role ||  'CLIENTE'
   }
 }
 
@@ -47,7 +49,8 @@ const login = async ({ email, password }) => {
     user: {
       id: user.id,
       name: user.name,
-      email: user.email
+      email: user.email,
+      role: user.role
     }
   }
 }

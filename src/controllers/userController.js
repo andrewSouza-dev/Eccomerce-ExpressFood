@@ -4,7 +4,16 @@ const userService = require('../services/userService')
 const listAll = async (req, res, next) => {
   try {
     const users = await userService.listAll()
-    res.json(users)
+    res.render('admin/users/index', { users, user: req.session.user })
+  } catch (error) {
+    next(error)
+  }
+}
+
+const listarView = async (req, res, next) => {
+  try {
+    const users = await userService.listAll()
+    res.render('admin/users/show', { users, user: req.session.user })
   } catch (error) {
     next(error)
   }
@@ -21,6 +30,12 @@ const listById = async (req, res, next) => {
   }
 }
 
+
+// Exibir formulário de criação
+const novoView = (req, res) => {
+  res.render('admin/users/novo', { user: req.session.user })
+}
+
 // Criar usuário
 const create = async (req, res, next) => {
   try {
@@ -30,6 +45,19 @@ const create = async (req, res, next) => {
     next(error)
   }
 }
+
+
+// Exibir formulário de edição
+const editarView = async (req, res, next) => {
+  try {
+    const id = Number(req.params.id)
+    const usuario = await userService.listById(id)
+    res.render('admin/users/editar', { usuario, user: req.session.user })
+  } catch (error) {
+    next(error)
+  }
+}
+
 
 // Atualizar usuário
 const update = async (req, res, next) => {
@@ -53,4 +81,4 @@ const remove = async (req, res, next) => {
   }
 }
 
-module.exports = { listAll, listById, create, update, remove }
+module.exports = { listAll, listarView, listById, novoView, create, editarView, update, remove }

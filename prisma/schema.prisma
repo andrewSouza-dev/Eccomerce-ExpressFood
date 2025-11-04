@@ -58,9 +58,10 @@ model CartItem {
 model Order {
   id        Int          @id @default(autoincrement())
   userId    Int
+  status    String       @default("PENDENTE")
+  total     Float
   user      User         @relation(fields: [userId], references: [id])
   items     OrderItem[]      
-  status    String       @default("PENDENTE")
   createdAt DateTime     @default(now())
 }
 

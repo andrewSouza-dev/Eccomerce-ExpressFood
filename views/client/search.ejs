@@ -2,28 +2,35 @@
 
 <h2>Resultados para "<%= query %>"</h2>
 
-<form id="searchForm" action="/buscar/pratos" method="GET">
-  <input type="text" name="nome" value="<%= query %>" required />
-  <input type="hidden" name="lat" id="lat">
-  <input type="hidden" name="lon" id="lon">
-  <button type="submit">Buscar</button>
-</form>
-
-<ul>
-  <% if (produtos.length === 0) { %>
-    <li>Nenhum prato encontrado.</li>
-  <% } else { %>
+<% if (!query || query.trim() === '') { %>
+  <p>Digite um termo para buscar pratos.</p>
+<% } else if (produtos.length === 0) { %>
+  <p>Nenhum prato encontrado para "<%= query %>".</p>
+<% } else { %>
+  <ul>
     <% produtos.forEach(p => { %>
-      <li>
-        <strong><%= p.name %></strong> - Restaurante: 
-        <a href="/restaurante/<%= p.restaurant.id %>">
-          <%= p.restaurant.name %>
-        </a> - <%= p.distancia ? p.distancia.toFixed(2) + ' km' : '' %>
+      <li style="margin-bottom: 30px; list-style: none;">
+        <h3><%= p.name %> - R$ <%= p.price.toFixed(2) %></h3>
+        <% if (p.imagemURL) { %>
+          <img src="<%= p.imagemURL %>" alt="Imagem do produto" width="200" />
+        <% } %>
+        <p>Restaurante: <strong><%= p.restaurant.name %></strong></p>
+        <p>Endereço: <%= p.restaurant.address %></p>
+        <% if (p.restaurant.imagemURL) { %>
+          <img src="<%= p.restaurant.imagemURL %>" alt="Imagem do restaurante" width="150" />
+        <% } %>
+        <br>
+        <a href="/restaurante/<%= p.restaurant.id %>">Ver restaurante</a>
+
+        <!-- Formulário para adicionar ao carrinho -->
+        <form action="/cart/adicionar" method="POST" style="margin-top: 10px;">
+          <input type="hidden" name="productId" value="<%= p.id %>" />
+          <input type="number" name="quantity" value="1" min="1" style="width: 60px;" />
+          <button type="submit">Adicionar ao carrinho</button>
+        </form>
       </li>
     <% }) %>
-  <% } %>
-</ul>
-
-
+  </ul>
+<% } %>
 
 <%- include('../partials/footer') %>

@@ -9,18 +9,19 @@
 
 <ul id="restaurantList">
   <% if (restaurantes.length === 0) { %>
-    <li>Nenhum restaurante próximo encontrado.</li>
+    <li>Nenhum restaurante disponível.</li>
   <% } else { %>
     <% restaurantes.forEach(r => { %>
       <li>
         <a href="/restaurante/<%= r.id %>">
-          <%= r.name %> - <%= r.distancia.toFixed(2) %> km
+          <% if (r.imagemURL) { %>
+            <img src="<%= r.imagemURL %>" alt="Imagem de <%= r.name %>" width="150" />
+          <% } %>
         </a>
+        <p><strong><%= r.name %></strong></p>
       </li>
     <% }) %>
   <% } %>
 </ul>
-
-
 
 <%- include('../partials/footer') %>

@@ -1,0 +1,18 @@
+
+
+
+<h2>Detalhes do Restaurante</h2>
+<p><strong>Nome:</strong> <%= restaurante.name %></p>
+<p><strong>Endereço:</strong> <%= restaurante.address %></p>
+<% if (restaurante.imagemURL) { %>
+  <img src="<%= restaurante.imagemURL %>" alt="Imagem do restaurante" width="200" />
+<% } %>
+
+<h3>Produtos</h3>
+<ul>
+  <% restaurante.products.forEach(p => { %>
+    <li><%= p.name %> - R$ <%= p.price %></li>
+  <% }) %>
+</ul>
+
+<a href="/admin/restaurantes/<%= restaurante.id %>/editar">Editar</a>

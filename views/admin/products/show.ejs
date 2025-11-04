@@ -1,0 +1,12 @@
+
+
+
+<h2>Detalhes do Produto</h2>
+<p><strong>Nome:</strong> <%= produto.name %></p>
+<p><strong>Preço:</strong> R$ <%= produto.price %></p>
+<% if (produto.imagemURL) { %>
+  <img src="<%= produto.imagemURL %>" alt="Imagem do produto" width="200" />
+<% } %>
+<p><strong>Restaurante:</strong> <%= produto.restaurant?.name %></p>
+
+<a href="/admin/produtos/<%= produto.id %>/editar">Editar</a>
