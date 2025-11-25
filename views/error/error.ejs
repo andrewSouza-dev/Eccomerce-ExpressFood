@@ -5,11 +5,27 @@
   <title>Erro <%= status %></title>
 </head>
 <body>
-  <h1>Erro <%= status %></h1>
+  <h1>Ops, algo deu errado! (<%= status %>)</h1>
   <p><%= message %></p>
+
+  <!-- Botões de voltar com base no tipo de usuário -->
+  <% if (user) { %>
+    <% if (user.isAdmin) { %>
+
+      <!-- Admin volta para dashboard -->
+      <a href="/admin" class="btn">Voltar para Admin</a>
+    <% } else { %>
+
+      <!-- Cliente volta para Home ou Carrinho -->
+      <a href="/home" class="btn">Voltar para Home</a>
+    <% } %>
+  <% } else { %>
+
+    <!-- Não logado -->
+    <a href="/auth/login" class="btn">Fazer Login</a>
+    <a href="/auth/cadastro" class="btn">Cadastro</a>
+  <% } %>
 
   <%- include('../partials/footer') %>
 </body>
 </html>
-
-

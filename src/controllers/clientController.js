@@ -15,7 +15,11 @@ const verRestaurante = async (req, res, next) => {
     const id = Number(req.params.id)
     const restaurante = await restaurantService.listById(id)
     const produtos = await productService.listByRestaurant(id)
-    res.render('client/restaurante', { restaurante, produtos })
+    res.render('client/restaurante', { 
+      restaurante, 
+      produtos,
+      user: req.session.user
+     })
   } catch (error) {
     next(error)
   }

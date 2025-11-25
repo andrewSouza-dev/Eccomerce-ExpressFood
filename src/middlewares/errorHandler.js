@@ -5,8 +5,12 @@ const errorHandler = (err, req, res, next) => {
   console.error('Erro capturado:', err)
 
   if (req.accepts('html')) {
-    // Renderiza diretamente a view de erro
-    return res.status(status).render('error/error', { status, message })
+    // Renderiza diretamente a view de erro e passa também o usuário da sessão
+    return res.status(status).render('error/error', { 
+      status, 
+      message, 
+      user: req.session.user || null 
+    })
   }
 
   // Se for API (JSON)

@@ -1,6 +1,6 @@
 <%- include('../../partials/menu') %>
 
-<h2>Produtos cadastrados</h2>
+<h2>Restaurantes cadastrados</h2>
 
 <%- include('../../partials/alert', { msg: msg, type: 'success' }) %>
 
@@ -9,21 +9,19 @@
     <tr>
       <th>ID</th>
       <th>Nome</th>
-      <th>Preço</th>
-      <th>Restaurante</th>
+      <th>Endereço</th>
       <th>Ações</th>
     </tr>
   </thead>
   <tbody>
-    <% products.forEach(p => { %>
+    <% restaurantes.forEach(r => { %>
       <tr>
-        <td><%= p.id %></td>
-        <td><%= p.name %></td>
-        <td>R$ <%= p.price.toFixed(2) %></td>
-        <td><%= p.restaurant ? p.restaurant.name : '—' %></td>
+        <td><%= r.id %></td>
+        <td><%= r.name %></td>
+        <td><%= r.address %></td>
         <td>
-          <a href="/admin/produtos/<%= p.id %>/editar">Editar</a>
-          <form action="/admin/produtos/<%= p.id %>/excluir" method="POST" style="display:inline;">
+          <a href="/admin/restaurantes/<%= r.id %>/editar">Editar</a>
+          <form action="/admin/restaurantes/<%= r.id %>/excluir" method="POST" style="display:inline;">
             <button type="submit" onclick="return confirm('Tem certeza que deseja excluir?')">Excluir</button>
           </form>
         </td>
@@ -32,6 +30,6 @@
   </tbody>
 </table>
 
-<a href="/admin/produtos/novo">Criar novo produto</a>
+<a href="/admin/restaurantes/novo">Criar novo restaurante</a>
 
 <%- include('../../partials/footer') %>
