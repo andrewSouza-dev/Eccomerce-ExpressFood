@@ -34,6 +34,11 @@ app.use(express.static('public'))
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, '../views'))
 
+app.use((req, res, next) => {
+  res.locals.user = req.session.user || null;
+  next();
+});
+
 // Rotas
 const routes = require('./container')
 app.use(routes)

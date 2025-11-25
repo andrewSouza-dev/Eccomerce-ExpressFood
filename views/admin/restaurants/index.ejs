@@ -1,35 +1,52 @@
 <%- include('../../partials/menu') %>
 
-<h2>Restaurantes cadastrados</h2>
+<div class="page-container">
 
-<%- include('../../partials/alert', { msg: msg, type: 'success' }) %>
+  <% if (msg) { %>
+    <div class="flash-message success"><%= msg %></div>
+  <% } %>
 
-<table border="1" cellpadding="8" cellspacing="0">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Nome</th>
-      <th>Endereço</th>
-      <th>Ações</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% restaurantes.forEach(r => { %>
-      <tr>
-        <td><%= r.id %></td>
-        <td><%= r.name %></td>
-        <td><%= r.address %></td>
-        <td>
-          <a href="/admin/restaurantes/<%= r.id %>/editar">Editar</a>
-          <form action="/admin/restaurantes/<%= r.id %>/excluir" method="POST" style="display:inline;">
-            <button type="submit" onclick="return confirm('Tem certeza que deseja excluir?')">Excluir</button>
-          </form>
-        </td>
-      </tr>
-    <% }) %>
-  </tbody>
-</table>
+  <h2>Restaurantes Cadastrados</h2>
 
-<a href="/admin/restaurantes/novo">Criar novo restaurante</a>
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>Endereço</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% restaurantes.forEach(r => { %>
+          <tr>
+            <td><%= r.id %></td>
+            <td><%= r.name %></td>
+            <td><%= r.address %></td>
+            <td>
+              <a href="/admin/restaurantes/<%= r.id %>/editar" class="action-btn">Editar</a>
+
+              <form action="/admin/restaurantes/<%= r.id %>/excluir"
+                    method="POST" style="display:inline;">
+                <button type="submit"
+                        class="action-btn delete-btn"
+                        onclick="return confirm('Tem certeza que deseja excluir?')">
+                  Excluir
+                </button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+
+  <a href="/admin/restaurantes/novo" class="action-btn create-btn">
+    Criar novo restaurante
+  </a>
+
+</div>
 
 <%- include('../../partials/footer') %>

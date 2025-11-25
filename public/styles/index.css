@@ -1,255 +1,654 @@
-/* =========================
-   RESET BÁSICO
-========================= */
-* {
+/* ===== Reset básico ===== */
+body, h1, h2, p, a, input, button, ul, li {
   margin: 0;
   padding: 0;
+  font-family: 'Poppins', sans-serif;
   box-sizing: border-box;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* ===== Fundo da página ===== */
 body {
-  background-color: #f5f5f5;
-  color: #333;
-  line-height: 1.6;
+  background: linear-gradient(135deg, #ff6f61, #ffcc70);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-/* =========================
-   CONTAINER
-========================= */
-.container {
-  width: 90%;
+/* ===== Container principal genérico ===== */
+.page-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 20px 0;
+  padding: 40px 20px;
 }
 
-/* =========================
-   HEADER / NAVBAR
-========================= */
-header {
-  background-color: #fff;
-  padding: 15px 0;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+/* ===== Mensagem flash ===== */
+.flash-message {
+  color: #2e7d32;
+  background: #c8e6c9;
+  padding: 10px;
+  border-radius: 6px;
   margin-bottom: 20px;
+  text-align: center;
+  font-weight: bold;
+  transition: opacity 0.5s ease;
 }
 
-header nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-header nav a {
-  text-decoration: none;
+/* ===== Título ===== */
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
   color: #333;
-  margin: 0 10px;
-  font-weight: 500;
 }
 
-header nav a:hover {
-  color: #ff6b6b;
+/* ===== Formulário de busca (Home) ===== */
+#searchForm {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
 }
 
-/* =========================
-   TÍTULOS
-========================= */
-h1, h2, h3 {
-  margin-bottom: 15px;
-  color: #222;
+#searchForm input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 250px;
 }
 
-/* =========================
-   PRODUTOS / CARDS
-========================= */
-.product-card, .restaurant-card {
-  background-color: #fff;
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-  margin-bottom: 20px;
+#searchForm button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background: #ff6f61;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#searchForm button:hover {
+  background: #e85c50;
+}
+
+/* ===== Lista de restaurantes ===== */
+#restaurantList {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
+  list-style: none;
+  padding: 0;
+}
+
+/* ===== Card de restaurante ===== */
+.restaurant-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  padding: 15px;
+  text-align: center;
+  width: 200px;
   transition: transform 0.2s ease;
 }
 
-.product-card:hover, .restaurant-card:hover {
+.restaurant-card:hover {
   transform: translateY(-5px);
 }
 
-.product-card img, .restaurant-card img {
+.restaurant-card img {
   width: 100%;
-  height: 200px;
+  height: 100px;
   object-fit: cover;
-}
-
-.product-card .content, .restaurant-card .content {
-  padding: 15px;
-}
-
-.product-card .content h3, .restaurant-card .content h3 {
+  border-radius: 8px;
   margin-bottom: 10px;
 }
 
-.product-card .content p, .restaurant-card .content p {
-  font-size: 0.9rem;
-  color: #555;
+.restaurant-card p {
+  margin: 0;
+  font-weight: bold;
+  color: #333;
 }
 
-/* =========================
-   BOTÕES
-========================= */
-button, .btn {
-  background-color: #ff6b6b;
+/* ===== Mensagem de lista vazia ===== */
+#restaurantList .empty {
+  font-style: italic;
+  color: #777;
+}
+
+/* ===== Caixa de Login e Cadastro ===== */
+.form-container {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.form-container h2 {
+  margin-bottom: 16px;
+  color: #333;
+}
+
+.form-container input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  background: #fff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-container input:focus {
+  border-color: #ff6f61;
+  box-shadow: 0 0 0 3px rgba(255, 111, 97, 0.2);
+  outline: none;
+}
+
+.form-container button {
+  display: inline-block;
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: #ff6f61;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.05s ease;
+}
+
+.form-container button:hover {
+  background: #e85c50;
+}
+
+.form-container button:active {
+  transform: scale(0.99);
+}
+
+/* ===== Mensagens de feedback (Login/Cadastro) ===== */
+.success, .error {
+  text-align: center;
+  font-weight: 600;
+}
+
+.success {
+  color: #2e7d32;
+  background: #c8e6c9;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+
+.error {
+  color: #c62828;
+  background: #ffcdd2;
+  padding: 10px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+}
+
+/* ===== Container da Home ===== */
+.home-container {
+  flex: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+/* ===== Página de restaurante ===== */
+.restaurant-page {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #ff6f61, #ffcc70);
+}
+
+/* ===== Container principal ===== */
+.restaurant-container {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  max-width: 1000px;
+  width: 100%;
+  animation: fadeIn 0.6s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* ===== Imagem do restaurante ===== */
+.restaurant-image {
+  width: 100%;
+  max-width: 500px;
+  border-radius: 12px;
+  margin: 20px 0 30px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* ===== Lista de produtos ===== */
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  width: 100%;
+}
+
+/* ===== Cada card de produto ===== */
+.product-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  text-align: center;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+
+.product-card strong {
+  display: block;
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+/* ===== Imagem do produto ===== */
+.product-image {
+  width: 100%;
+  max-width: 180px;
+  border-radius: 8px;
+  margin: 10px auto;
+  display: block;
+}
+
+/* ===== Formulário de adicionar ao carrinho ===== */
+.add-cart-form {
+  margin-top: 12px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.add-cart-form input[type="number"] {
+  width: 60px;
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.add-cart-form button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  background: #ff6f61;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.add-cart-form button:hover {
+  background: #e85c50;
+}
+
+.cart-container {
+    width: 420px;
+    background: #ffffff;
+    margin: 50px auto;
+    padding: 25px;
+    border-radius: 18px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.12);
+}
+
+.cart-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #6d00ff;
+}
+
+.cart-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+/* Card dos produtos */
+.cart-item-card {
+    background: #f8f8f8;
+    padding: 15px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* Imagem */
+.cart-img {
+    width: 75px;
+    height: 75px;
+    border-radius: 12px;
+    object-fit: cover;
+}
+
+/* Texto */
+.cart-info h3 {
+    margin: 0;
+    color: #7b00d9;
+    font-size: 17px;
+}
+
+.cart-meta {
+    font-size: 12px;
+    color: #777;
+    display: flex;
+    gap: 10px;
+}
+
+.price {
+    font-weight: bold;
+    margin-top: 5px;
+    color: #333;
+}
+
+/* Controle de quantidade */
+.quantity-box {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.qty-btn {
+    background: #c300ff;
+    color: white;
+    border: none;
+    padding: 7px 10px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.qty-num {
+    font-weight: bold;
+}
+
+/* Rodapé */
+.cart-footer {
+    margin-top: 25px;
+    text-align: center;
+}
+
+.pay-btn {
+    background: #c300ff;
+    border: none;
+    padding: 15px;
+    width: 100%;
+    color: white;
+    font-weight: 600;
+    border-radius: 12px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-size: 15px;
+}
+
+.pay-btn:hover {
+    opacity: .9;
+}
+
+
+/* ===== Página de erro ===== */
+.error-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-image: url('/images/pizza.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.error-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 20px;
+  text-align: center;
+  color: #fff;
+  max-width: 600px;
+  margin: 50px auto;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 12px;
+}
+
+.error-container .btn {
+  display: inline-block;
+  margin: 10px;
+  padding: 12px 20px;
+  background: #ff6f61;
   color: #fff;
   border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-button:hover, .btn:hover {
-  background-color: #ff3b3b;
-}
-
-/* =========================
-   FORMULÁRIOS
-========================= */
-input, select, textarea {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-/* =========================
-   CARRINHO
-========================= */
-.cart-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #fff;
-  padding: 15px;
-  border-radius: 10px;
-  margin-bottom: 10px;
-}
-
-.cart-item img {
-  width: 80px;
-  height: 80px;
-  object-fit: cover;
-  border-radius: 5px;
-}
-
-.cart-item .info {
-  flex: 1;
-  margin-left: 15px;
-}
-
-.cart-item .info h4 {
-  margin-bottom: 5px;
-}
-
-.cart-item .info p {
-  font-size: 0.9rem;
-  color: #555;
-}
-
-.cart-item .actions {
-  display: flex;
-  gap: 10px;
-}
-
-/* =========================
-   FOOTER
-========================= */
-footer {
-  background-color: #fff;
-  padding: 15px 0;
-  text-align: center;
-  margin-top: 30px;
-  box-shadow: 0 -2px 5px rgba(0,0,0,0.05);
-}
-
-/* =========================
-   NAVBAR
-========================= */
-.navbar {
-  background-color: #fff;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 20px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-}
-
-.navbar .logo {
-  font-size: 1.5rem;
+  border-radius: 8px;
+  text-decoration: none;
   font-weight: bold;
-  color: #ff6b6b;
-  text-decoration: none;
+  transition: background 0.3s ease;
 }
 
-.navbar ul {
-  list-style: none;
+.error-container .btn:hover {
+  background: #e85c50;
+}
+
+
+
+
+/* ===== Melhorias para a página de resultados ===== */
+.search-results-container {
   display: flex;
-  gap: 15px;
+  justify-content: center;
+  padding: 40px 20px;
 }
 
-.navbar ul li {
-  display: inline;
+.search-result-card {
+  background: rgba(255, 255, 255, 0.97);
+  width: 600px; /* Aumentei de ~380 → 600px */
+  padding: 30px 40px;
+  border-radius: 18px;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.15);
+  text-align: center;
 }
 
-.navbar ul li a {
-  text-decoration: none;
+.search-result-card img {
+  max-width: 90%;
+  border-radius: 10px;
+}
+
+.search-result-info {
+  margin-top: 15px;
   color: #333;
-  font-weight: 500;
-  transition: 0.2s;
 }
 
-.navbar ul li a:hover {
-  color: #ff6b6b;
+.search-btn-group {
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+  gap: 12px;
 }
 
-/* =========================
-   BOTÃO RESPONSIVO
-========================= */
-.navbar .menu-toggle {
-  display: none;
-  flex-direction: column;
+.search-btn-group button,
+.search-btn-group a {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
   cursor: pointer;
+  color: #fff;
+  font-weight: bold;
 }
 
-.navbar .menu-toggle span {
-  height: 3px;
-  width: 25px;
-  background: #333;
-  margin-bottom: 4px;
-  border-radius: 3px;
+.search-view-btn {
+  background: #43a047;
 }
 
-/* RESPONSIVO */
-@media (max-width: 768px) {
-  .navbar ul {
-    display: none;
+.search-view-btn:hover {
+  background: #388e3c;
+}
+
+.search-add-btn {
+  background: #ff6f61;
+}
+
+.search-add-btn:hover {
+  background: #e85c50;
+}
+
+
+
+
+
+
+
+/* ===== Footer ===== */
+footer {
+  text-align: center;
+  padding: 20px;
+  color: #fff;
+  font-size: 14px;
+  margin-top: auto;
+}
+
+
+
+/* ===== Animação suave ===== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+
+
+/* ===== Responsivo ===== */
+@media (max-width: 600px) {
+  .cart-container {
+    padding: 20px;
+  }
+
+  .cart-container li {
     flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .cart-container h3 {
+    text-align: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .restaurant-card {
     width: 100%;
-    background-color: #fff;
-    position: absolute;
-    top: 60px;
-    left: 0;
-    padding: 10px 0;
+    max-width: 300px;
   }
 
-  .navbar ul.active {
-    display: flex;
+  #searchForm input {
+    width: 100%;
+    max-width: 300px;
   }
 
-  .navbar .menu-toggle {
-    display: flex;
+  .form-container {
+    max-width: 90%;
   }
+}
+
+/* ======================================== */
+/* ====== ✨ MELHORIAS DA TABELA ✨ ====== */
+/* ======================================== */
+
+.table-wrapper {
+  width: 100%;
+  background: rgba(255,255,255,0.96);
+  padding: 25px;
+  border-radius: 14px;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+  margin-top: 20px;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+
+table th {
+  background: #ff6f61;
+  color: white;
+  padding: 14px;
+  text-align: left;
+  font-size: 15px;
+}
+
+table td {
+  padding: 12px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+}
+
+/* ===== Botões da tabela ===== */
+.action-btn {
+  padding: 8px 12px;
+  background: #ff6f61;
+  color: #fff;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: 0.3s;
+  font-size: 14px;
+  display: inline-block;
+}
+
+.action-btn:hover {
+  background: #e85c50;
+}
+
+.delete-btn {
+  background: #c62828;
+}
+
+.delete-btn:hover {
+  background: #b71c1c;
+}
+
+.create-btn {
+  padding: 12px 20px;
+  margin-top: 20px;
+  background: #4caf50;
+  display: inline-block;
+}
+
+.create-btn:hover {
+  background: #449d48;
 }

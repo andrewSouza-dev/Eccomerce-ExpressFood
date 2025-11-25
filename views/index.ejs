@@ -1,11 +1,25 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>FoodExpress 🍽️</title>
+  <link rel="stylesheet" href="/styles/style.css">
+</head>
+<body class="auth-page">
 
+  <div class="main-container">
+    <div class="auth-container">
+      <h1 class="auth-title">Bem-vindo ao <span>FoodExpress 🍽️</span></h1>
+      <p class="auth-subtitle">Escolha uma opção abaixo:</p>
 
-<h1>Bem-vindo ao FoodExpress 🍽️</h1>
-<p>Escolha uma opção abaixo:</p>
+      <div class="button-group">
+        <a href="/auth/login" class="btn btn-primary">Login</a>
+        <a href="/auth/cadastro" class="btn btn-secondary">Cadastro</a>
+      </div>
+    </div>
 
-<div class="button-group">
-  <a href="/auth/login" class="btn">Login</a>
-  <a href="/auth/cadastro" class="btn">Cadastro</a>
-</div>
+    <%- include('partials/footer') %>
+  </div>
 
-<%- include('partials/footer') %>
+</body>
+</html>

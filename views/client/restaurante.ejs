@@ -1,29 +1,33 @@
 <%- include('../partials/menu') %>
 
-<h2><%= restaurante.name %></h2>
-<p><%= restaurante.address %></p>
+<div class="restaurant-page">
+  <div class="restaurant-container">
+    <h2><%= restaurante.name %></h2>
+    <p><%= restaurante.address %></p>
 
-<% if (restaurante.imagemURL) { %>
-  <img src="<%= restaurante.imagemURL %>" alt="Imagem do restaurante" width="200" />
-<% } %>
+    <% if (restaurante.imagemURL) { %>
+      <img src="<%= restaurante.imagemURL %>" alt="Imagem do restaurante" class="restaurant-image" />
+    <% } %>
 
-<h3>Produtos disponíveis:</h3>
-<ul>
-  <% produtos.forEach(p => { %>
-    <li style="margin-bottom: 20px;">
-      <strong><%= p.name %></strong> - R$ <%= p.price %>
-      <% if (p.imagemURL) { %>
-        <br><img src="<%= p.imagemURL %>" alt="Imagem do produto" width="150" />
-      <% } %>
+    <h3>Produtos disponíveis:</h3>
+    <ul class="product-list">
+      <% produtos.forEach(p => { %>
+        <li class="product-card">
+          <strong><%= p.name %></strong> - R$ <%= p.price %>
+          <% if (p.imagemURL) { %>
+            <br><img src="<%= p.imagemURL %>" alt="Imagem do produto" class="product-image" />
+          <% } %>
 
-      <!-- Formulário para adicionar ao carrinho -->
-      <form action="/cart/adicionar" method="POST" style="margin-top: 10px;">
-        <input type="hidden" name="productId" value="<%= p.id %>" />
-        <input type="number" name="quantity" value="1" min="1" style="width: 60px;" />
-        <button type="submit">Adicionar ao carrinho</button>
-      </form>
-    </li>
-  <% }) %>
-</ul>
+          <!-- Formulário para adicionar ao carrinho -->
+          <form action="/cart/adicionar" method="POST" class="add-cart-form">
+            <input type="hidden" name="productId" value="<%= p.id %>" />
+            <input type="number" name="quantity" value="1" min="1" />
+            <button type="submit">Adicionar ao carrinho</button>
+          </form>
+        </li>
+      <% }) %>
+    </ul>
+  </div>
+</div>
 
 <%- include('../partials/footer') %>

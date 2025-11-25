@@ -1,14 +1,14 @@
 <%- include('../partials/menu') %>
 
-<h2>Cadastro</h2>
-
-<form action="/auth/cadastro" method="POST" class="form-container">
-  <input type="text" name="name" placeholder="Nome completo" required />
-  <input type="email" name="email" placeholder="E-mail" required />
-  <input type="password" name="password" placeholder="Senha" required />
-
-  <button type="submit">Cadastrar</button>
-</form>
+<div class="page-container">
+  <form action="/auth/cadastro" method="POST" class="form-container">
+    <h2>Cadastro</h2>
+    <input type="text" name="name" placeholder="Nome completo" required />
+    <input type="email" name="email" placeholder="E-mail" required />
+    <input type="password" name="password" placeholder="Senha" required />
+    <button type="submit">Cadastrar</button>
+  </form>
+</div>
 
 
 <%- include('../partials/footer') %>

@@ -1,7 +1,13 @@
 
-
+// Dashboard do ADMIN
 const dashboard = (req, res) => {
-  res.render('admin/dashboard', { user: req.session.user })
+  const success = req.session.success;
+  req.session.success = null;
+  res.render('admin/dashboard', { 
+    success,
+    user: req.session.user 
+  })
 }
 
-module.exports = { dashboard }
+
+module.exports =  { dashboard }

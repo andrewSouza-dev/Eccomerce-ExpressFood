@@ -14,6 +14,7 @@ router.get('/restaurante/:id', authentication, viewsController.verRestaurante)
 // Carrinho (protegido)
 router.get('/cart', authentication, viewsController.verCarrinho)
 router.post('/cart/adicionar', authentication, viewsController.adicionarAoCarrinho)
+router.post('/cart/diminuir', authentication, viewsController.diminuirQuantidade)
 router.post('/cart/remover', authentication, viewsController.removerDoCarrinho)
 router.post('/orders/finalizar', authentication, viewsController.finalizarPedido)
 

@@ -1,0 +1,31 @@
+/* ===== Menu principal ===== */
+.main-nav {
+  display: flex;
+  justify-content: center;   /* centraliza os links */
+  align-items: center;
+  gap: 20px;                 /* espaço entre os links */
+  background: #333;          /* cor de fundo do menu */
+  padding: 15px 0;
+}
+
+/* Links do menu */
+.main-nav .nav-link {
+  color: #fff;               /* cor do texto */
+  font-weight: 600;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Hover nos links */
+.main-nav .nav-link:hover {
+  background: #ff6f61;       /* fundo vermelho suave */
+  color: #fff;               /* mantém texto branco */
+}
+
+/* Link ativo (opcional) */
+.main-nav .nav-link.active {
+  background: #ffcc70;       /* destaque em amarelo */
+  color: #333;
+}

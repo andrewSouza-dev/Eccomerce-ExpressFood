@@ -3,12 +3,12 @@ const { authentication, isAdmin } = require('../middlewares/authMiddleware')
 const restaurantController = require('../controllers/restaurantController')
 const productController = require('../controllers/productController')
 const userController = require('../controllers/userController')
-const adminController = require('../controllers/adminController')
+const adminControll = require('../controllers/adminController')
 
 const router = express.Router()
 
 // Dashboard do admin
-router.get('/', authentication, isAdmin, adminController.dashboard)
+router.get('/', authentication, isAdmin, adminControll.dashboard)
 
 // USERS CRUD
 router.get('/users', authentication, isAdmin, userController.listAll)

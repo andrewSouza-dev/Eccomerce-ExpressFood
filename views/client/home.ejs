@@ -1,27 +1,48 @@
 <%- include('../partials/menu') %>
 
-<h2>Restaurantes</h2>
-
-<form id="searchForm" action="/buscar/pratos" method="GET">
-  <input type="text" name="nome" placeholder="Buscar prato..." required />
-  <button type="submit">Buscar</button>
-</form>
-
-<ul id="restaurantList">
-  <% if (restaurantes.length === 0) { %>
-    <li>Nenhum restaurante disponível.</li>
-  <% } else { %>
-    <% restaurantes.forEach(r => { %>
-      <li>
-        <a href="/restaurante/<%= r.id %>">
-          <% if (r.imagemURL) { %>
-            <img src="<%= r.imagemURL %>" alt="Imagem de <%= r.name %>" width="150" />
-          <% } %>
-        </a>
-        <p><strong><%= r.name %></strong></p>
-      </li>
-    <% }) %>
+<div class="home-container">
+  <% if (success) { %>
+    <p class="success flash-message"><%= success %></p>
   <% } %>
-</ul>
+  
+  <h2>Restaurantes</h2>
+
+  <form id="searchForm" action="/buscar/pratos" method="GET">
+    <input type="text" name="nome" placeholder="Buscar prato..." required />
+    <button type="submit">Buscar</button>
+  </form>
+
+  <ul id="restaurantList">
+    <% if (restaurantes.length === 0) { %>
+      <li>Nenhum restaurante disponível.</li>
+    <% } else { %>
+      <% restaurantes.forEach(r => { %>
+        <li class="restaurant-card">
+          <a href="/restaurante/<%= r.id %>">
+            <% if (r.imagemURL) { %>
+              <img src="<%= r.imagemURL %>" alt="Imagem de <%= r.name %>" />
+            <% } %>
+          </a>
+          <p><strong><%= r.name %></strong></p>
+        </li>
+      <% }) %>
+    <% } %>
+  </ul>
+</div>
+
+<!-- Script para desaparecer a mensagem -->
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const flash = document.querySelector(".flash-message");
+    if (flash) {
+      setTimeout(() => {
+        flash.style.opacity = "0";
+        setTimeout(() => flash.remove(), 500); // remove após fade
+      }, 5000); // 5 segundos
+    }
+  });
+</script>
+
+
 
 <%- include('../partials/footer') %>

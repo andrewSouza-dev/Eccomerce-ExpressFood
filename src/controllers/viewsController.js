@@ -19,8 +19,11 @@ const logout = (req, res) => {
 // HOME
 const home = async (req, res, next) => {
   try {
+    const success = req.session.success;
     const restaurantes = await viewsService.listarRestaurantes()
+    req.session.success = null;
     res.render('client/home', { 
+      success,
       user: req.session.user,
       restaurantes 
     })
@@ -92,6 +95,29 @@ const adicionarAoCarrinho = async (req, res, next) => {
   }
 }
 
+// DIMINUIR 1 DO CARRINHO
+const diminuirQuantidade = (req, res) => {
+  const productId = Number(req.body.productId)
+
+  if (!req.session.cart) return res.redirect('/cart')
+
+  const item = req.session.cart.find(i => i.product.id === productId)
+
+  if (!item) return res.redirect('/cart')
+
+  // Se tiver mais de um, apenas diminui
+  if (item.quantity > 1) {
+    item.quantity -= 1
+  } else {
+    // Se tiver 1, remove totalmente
+    req.session.cart = req.session.cart.filter(i => i.product.id !== productId)
+  }
+
+  return res.redirect('/cart')
+}
+
+
+
 // REMOVER DO CARRINHO
 const removerDoCarrinho = (req, res) => {
   const productId = Number(req.body.productId)
@@ -131,6 +157,7 @@ module.exports = {
   verRestaurante,
   verCarrinho,
   adicionarAoCarrinho,
+  diminuirQuantidade,
   removerDoCarrinho,
   finalizarPedido,
 }

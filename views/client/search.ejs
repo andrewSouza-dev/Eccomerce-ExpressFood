@@ -1,36 +1,53 @@
 <%- include('../partials/menu') %>
 
-<h2>Resultados para "<%= query %>"</h2>
+<div class="search-results-container">
+  <div class="search-result-card">
 
-<% if (!query || query.trim() === '') { %>
-  <p>Digite um termo para buscar pratos.</p>
-<% } else if (produtos.length === 0) { %>
-  <p>Nenhum prato encontrado para "<%= query %>".</p>
-<% } else { %>
-  <ul>
-    <% produtos.forEach(p => { %>
-      <li style="margin-bottom: 30px; list-style: none;">
-        <h3><%= p.name %> - R$ <%= p.price.toFixed(2) %></h3>
+    <h2>Resultados para "<%= query %>"</h2>
+
+    <% if (!query || query.trim() === '') { %>
+      <p>Digite um termo para buscar pratos.</p>
+
+    <% } else if (produtos.length === 0) { %>
+      <p>Nenhum prato encontrado para "<%= query %>".</p>
+
+    <% } else { %>
+      <% produtos.forEach(p => { %>
+
+        <h3><%= p.name %></h3>
+        <p style="font-size: 18px; font-weight: bold; color: #ff6f61;">
+          R$ <%= p.price.toFixed(2) %>
+        </p>
+
         <% if (p.imagemURL) { %>
-          <img src="<%= p.imagemURL %>" alt="Imagem do produto" width="200" />
+          <img src="<%= p.imagemURL %>" alt="Imagem do produto" />
         <% } %>
-        <p>Restaurante: <strong><%= p.restaurant.name %></strong></p>
-        <p>Endereço: <%= p.restaurant.address %></p>
-        <% if (p.restaurant.imagemURL) { %>
-          <img src="<%= p.restaurant.imagemURL %>" alt="Imagem do restaurante" width="150" />
-        <% } %>
-        <br>
-        <a href="/restaurante/<%= p.restaurant.id %>">Ver restaurante</a>
 
-        <!-- Formulário para adicionar ao carrinho -->
-        <form action="/cart/adicionar" method="POST" style="margin-top: 10px;">
+        <div class="search-result-info">
+          <p>Restaurante: <strong><%= p.restaurant.name %></strong></p>
+          <p>Endereço: <%= p.restaurant.address %></p>
+
+          <% if (p.restaurant.imagemURL) { %>
+            <img src="<%= p.restaurant.imagemURL %>" alt="Imagem do restaurante" width="160" />
+          <% } %>
+        </div>
+
+        <div class="search-btn-group">
+          <a href="/restaurante/<%= p.restaurant.id %>" class="search-view-btn">
+            Ver restaurante
+          </a>
+        </div>
+
+        <form action="/cart/adicionar" method="POST" class="search-btn-group">
           <input type="hidden" name="productId" value="<%= p.id %>" />
-          <input type="number" name="quantity" value="1" min="1" style="width: 60px;" />
-          <button type="submit">Adicionar ao carrinho</button>
+          <input type="number" name="quantity" value="1" min="1" style="width: 70px;" />
+          <button type="submit" class="search-add-btn">Adicionar ao carrinho</button>
         </form>
-      </li>
-    <% }) %>
-  </ul>
-<% } %>
 
-<%- include('../partials/footer') %>
+        <hr style="margin: 30px 0; opacity: 0.3;">
+
+      <% }) %>
+    <% } %>
+
+  </div>
+</div>

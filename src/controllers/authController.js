@@ -16,12 +16,41 @@ const loginView = (req, res) => {
 const cadastrar = async (req, res, next) => {
   try {
     const user = await authService.cadastrar(req.body);
-    req.session.success = 'Cadastro realizado com sucesso! Faça login.';
-    res.render('auth/cadastroSucesso', { user });
+
+    // Salva sessão de usuário
+    req.session.user = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      isAdmin: user.role === 'ADMIN',
+    };
+
+    // Mensagem flash
+    req.session.success = 'Cadastro realizado com sucesso!';
+
+    // Salva sessão e redireciona
+    req.session.save(err => {
+      if (err) {
+        console.error('Erro ao salvar sessão:', err);
+        return res.render('auth/cadastro', {
+          error: 'Erro ao criar sessão. Tente novamente.',
+        });
+      }
+
+      // Redireciona conforme o papel do usuário
+      if (user.role === 'ADMIN') {
+        return res.redirect('/admin');
+      } else {
+        return res.redirect('/home');
+      }
+    });
   } catch (error) {
     next(error);
   }
 };
+
+
 
 // Login de usuário
 const login = async (req, res, next) => {

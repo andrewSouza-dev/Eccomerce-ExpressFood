@@ -1,28 +1,73 @@
 <%- include('../partials/menu') %>
 
-<h2>Seu carrinho</h2>
+<div class="cart-page">
+  <div class="cart-container">
+    
+    <h2>Meu Carrinho</h2>
 
-<% let total = 0 %>
-<ul>
-  <% cart.forEach(item => { 
-       const subtotal = item.product.price * item.quantity
-       total += subtotal
-  %>
-    <li>
-      <strong><%= item.product.name %></strong> - R$ <%= item.product.price %> x <%= item.quantity %>
-      = R$ <%= subtotal.toFixed(2) %>
-      <form action="/cart/remover" method="POST" style="display:inline;">
-        <input type="hidden" name="productId" value="<%= item.product.id %>" />
-        <button type="submit">Remover</button>
+    <% let total = 0 %>
+
+    <div class="cart-list">
+      <% cart.forEach(item => { 
+        const subtotal = item.product.price * item.quantity;
+        total += subtotal;
+      %>
+
+      <div class="cart-item-card">
+
+        <!-- FOTO DO PRODUTO -->
+        <img src="<%= item.product.imagemURL %>" class="cart-img">
+
+        <!-- INFO -->
+        <div class="cart-info">
+          <h3><%= item.product.name %></h3>
+
+          <div class="cart-meta">
+            <span>⏱ 15 min</span>
+            <span>📦 Pronto</span>
+          </div>
+
+          <p class="price">R$ <%= item.product.price.toFixed(2) %></p>
+        </div>
+
+        <!-- QUANTIDADE -->
+        <div class="quantity-box">
+
+          <form action="/cart/diminuir" method="POST">
+            <input type="hidden" name="productId" value="<%= item.product.id %>">
+            <button class="qty-btn">−</button>
+          </form>
+
+          <span class="qty-num"><%= item.quantity %></span>
+
+          <form action="/cart/adicionar" method="POST">
+            <input type="hidden" name="productId" value="<%= item.product.id %>">
+            <button class="qty-btn">+</button>
+          </form>
+
+        </div>
+
+        <!-- REMOVER -->
+        <form action="/cart/remover" method="POST">
+          <input type="hidden" name="productId" value="<%= item.product.id %>">
+          <button class="remove-btn">🗑</button>
+        </form>
+
+      </div>
+
+      <% }) %>
+    </div>
+
+    <!-- TOTAL -->
+    <div class="cart-footer">
+      <h3>Total: R$ <%= total.toFixed(2) %></h3>
+
+      <form action="/orders/finalizar" method="POST">
+        <button class="pay-btn">Finalizar compra</button>
       </form>
-    </li>
-  <% }) %>
-</ul>
+    </div>
 
-<h3>Total: R$ <%= total.toFixed(2) %></h3>
-
-<form action="/orders/finalizar" method="POST">
-  <button type="submit">Finalizar compra</button>
-</form>
+  </div>
+</div>
 
 <%- include('../partials/footer') %>

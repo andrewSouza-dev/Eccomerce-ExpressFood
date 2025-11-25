@@ -1,30 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <title>Erro <%= status %></title>
+  <link rel="stylesheet" href="/styles/index.css">
 </head>
-<body>
-  <h1>Ops, algo deu errado! (<%= status %>)</h1>
-  <p><%= message %></p>
+<body class="error-page">
 
-  <!-- Botões de voltar com base no tipo de usuário -->
-  <% if (user) { %>
-    <% if (user.isAdmin) { %>
+  <div class="error-container">
+    <h1>Ops, algo deu errado! (<%= status %>)</h1>
+    <p><%= message %></p>
 
-      <!-- Admin volta para dashboard -->
-      <a href="/admin" class="btn">Voltar para Admin</a>
+    <% if (user) { %>
+      <% if (user.isAdmin) { %>
+
+        <a href="/admin" class="btn">Voltar para Admin</a>
+      <% } else { %>
+        
+        <a href="/home" class="btn">Voltar para Home</a>
+      <% } %>
+
     <% } else { %>
-
-      <!-- Cliente volta para Home ou Carrinho -->
-      <a href="/home" class="btn">Voltar para Home</a>
+      <a href="/" class="btn">Sair</a>
+      <a href="/auth/login" class="btn">Fazer Login</a>
+      <a href="/auth/cadastro" class="btn">Cadastro</a>
     <% } %>
-  <% } else { %>
-
-    <!-- Não logado -->
-    <a href="/auth/login" class="btn">Fazer Login</a>
-    <a href="/auth/cadastro" class="btn">Cadastro</a>
-  <% } %>
+  </div>
 
   <%- include('../partials/footer') %>
 </body>

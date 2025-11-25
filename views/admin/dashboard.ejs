@@ -1,5 +1,10 @@
 <%- include('../partials/menu') %>
 
+<div class="page-container">
+  <% if (success) { %>
+    <p class="success"><%= success %></p>
+  <% } %>
+  
 <h2>Painel Administrativo</h2>
 <p>Bem-vindo, <%= user.name %>!</p>
 
