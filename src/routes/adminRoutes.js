@@ -7,11 +7,8 @@ const adminController = require('../controllers/adminController')
 
 const router = express.Router()
 
-// DASHBOARD DO ADMIN
+// Dashboard do admin
 router.get('/', authentication, isAdmin, adminController.dashboard)
-
-
-
 
 // USERS CRUD
 router.get('/users', authentication, isAdmin, userController.listAll)

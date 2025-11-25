@@ -49,6 +49,11 @@ const create = async ({ name, email, password, role }) => {
 
 const update = async (id, data) => {
   try {
+    if (data.email) {
+    const existing = await prisma.user.findUnique({ where: { email: data.email } })
+    if (existing && existing.id !== id) throw new HttpError(400, 'E-mail já cadastrado')
+    }
+
     if (data.password) data.password = await bcrypt.hash(data.password, 10)
     const user = await prisma.user.update({
       where: { id },

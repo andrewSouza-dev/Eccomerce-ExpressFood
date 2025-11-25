@@ -1,3 +1,5 @@
+<%- include('../../partials/menu') %>
+
 <h2>Novo Usuário</h2>
 <form action="/admin/users" method="POST">
   <input type="text" name="name" placeholder="Nome" required />
@@ -9,3 +11,5 @@
   </select>
   <button type="submit">Criar</button>
 </form>
+
+<%- include('../../partials/footer') %>

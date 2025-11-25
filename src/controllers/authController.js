@@ -1,59 +1,75 @@
-const authService = require('../services/authService')
+const authService = require('../services/authService');
 
 const cadastroView = (req, res) => {
-    res.render('auth/cadastro')
-}
+  res.render('auth/cadastro');
+};
 
 const loginView = (req, res) => {
-    const success = req.session.success
-    req.session.success = null
-    res.render('auth/login', { success, error: null })
-}
+  const success = req.session.success;
+  const error = req.session.error;
+  req.session.success = null;
+  req.session.error = null;
+  res.render('auth/login', { success, error });
+};
 
+// Cadastro de usuário
 const cadastrar = async (req, res, next) => {
-    try {
-        const user = await authService.cadastrar(req.body)
-        req.session.user = user
-        req.session.success = 'Cadastro realizado com sucesso! Faça login.'
-        res.render('auth/cadastroSucesso', { user })
-    } catch (error) {
-        next(error)
-    }
-}
+  try {
+    const user = await authService.cadastrar(req.body);
+    req.session.success = 'Cadastro realizado com sucesso! Faça login.';
+    res.render('auth/cadastroSucesso', { user });
+  } catch (error) {
+    next(error);
+  }
+};
 
+// Login de usuário
 const login = async (req, res, next) => {
-    try {
-        const { token, user } = await authService.login(req.body)
+  try {
+    const { token, user } = await authService.login(req.body);
 
-        // Salva sessão para views EJS
-        req.session.user = {
-            id: user.id,
-            name: user.name,
-            email: user.email,
-            role: user.role,
-            isAdmin: user.role === 'ADMIN',
-        }
-        req.session.token = token
+    // Salva sessão de usuário
+    req.session.user = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      isAdmin: user.role === 'ADMIN',
+    };
+    req.session.token = token;
 
-        console.log('✅ Login bem-sucedido:', user.email)
-
-        // Redireciona com base no papel
-        if (user.role === 'ADMIN') {
-            return res.redirect('/admin')
-        } else {
-            return res.redirect('/home')
-        }
-    } catch (error) {
-        console.error('Erro no login:', error.message)
+    // Salva sessão antes de redirecionar
+    req.session.save(err => {
+      if (err) {
+        console.error('Erro ao salvar sessão:', err);
         return res.render('auth/login', {
-            success: null,
-            error: 'E-mail ou senha inválidos',
-        })
-    }
-}
+          success: null,
+          error: 'Erro ao criar sessão. Tente novamente.',
+        });
+      }
 
+      // Redireciona conforme o papel do usuário
+      if (user.role === 'ADMIN') {
+        return res.redirect('/admin');
+      } else {
+        return res.redirect('/home');
+      }
+    });
+  } catch (error) {
+    console.error('Erro no login:', error.message);
+    return res.render('auth/login', {
+      success: null,
+      error: 'E-mail ou senha inválidos',
+    });
+  }
+};
+
+// Logout de usuário
 const logout = (req, res) => {
-    req.session.destroy(() => res.redirect('/'))
-}
+  req.session.destroy(err => {
+    if (err) console.error('Erro ao destruir sessão:', err);
+    res.redirect('/auth/login');
+  });
+};
 
-module.exports = { cadastroView, loginView, cadastrar, login, logout }
+module.exports = { cadastroView, loginView, cadastrar, login, logout };

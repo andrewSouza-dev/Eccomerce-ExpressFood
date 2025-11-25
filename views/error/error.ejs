@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html>
 <head>
   <meta charset="UTF-8">
-  <title>Erro</title>
+  <title>Erro <%= status %></title>
 </head>
 <body>
-  <h1>Ocorreu um erro</h1>
-  <p><strong>Status:</strong> <%= status %></p>
-  <p><strong>Mensagem:</strong> <%= message %></p>
+  <h1>Erro <%= status %></h1>
+  <p><%= message %></p>
 
-  <a href="/">Voltar para a página inicial</a>
+  <%- include('../partials/footer') %>
 </body>
 </html>
+
+

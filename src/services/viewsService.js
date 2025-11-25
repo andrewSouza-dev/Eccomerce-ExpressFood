@@ -4,7 +4,10 @@ const HttpError = require('../errors/HttpError')
 // LISTAR TODOS OS RESTAURANTES
 const listarRestaurantes = async () => {
     try {
-        return await prisma.restaurant.findMany({ include: { products: true } })
+        const restaurantes = await prisma.restaurant.findMany({
+            include: { products: true }
+        })
+        return restaurantes
     } catch (err) {
         throw new HttpError(500, 'Erro ao listar restaurantes')
     }
@@ -16,7 +19,8 @@ const buscarProdutosPorNome = async (nome) => {
         if (!nome || nome.trim() === '') {
             throw new HttpError(400, 'Termo de busca não informado')
         }
-        return await prisma.product.findMany({
+
+        const produtos = await prisma.product.findMany({
             where: {
                 name: {
                     contains: nome,
@@ -25,7 +29,14 @@ const buscarProdutosPorNome = async (nome) => {
             },
             include: { restaurant: true },
         })
+
+        if (produtos.length === 0) {
+            throw new HttpError(404, 'Nenhum produto encontrado')
+        }
+
+        return produtos
     } catch (err) {
+        if (err instanceof HttpError) throw err
         throw new HttpError(500, 'Erro ao buscar produtos')
     }
 }
@@ -33,11 +44,19 @@ const buscarProdutosPorNome = async (nome) => {
 // BUSCAR PRODUTOS DE UM RESTAURANTE
 const buscarProdutosDoRestaurante = async (id) => {
     try {
-        return await prisma.product.findMany({
-            where: { restaurantId: Number(id) },
+        const restauranteId = Number(id)
+        if (isNaN(restauranteId)) {
+            throw new HttpError(400, 'ID inválido')
+        }
+
+        const produtos = await prisma.product.findMany({
+            where: { restaurantId: restauranteId },
             include: { restaurant: true },
         })
+
+        return produtos
     } catch (err) {
+        if (err instanceof HttpError) throw err
         throw new HttpError(500, 'Erro ao buscar produtos do restaurante')
     }
 }
@@ -45,10 +64,18 @@ const buscarProdutosDoRestaurante = async (id) => {
 // BUSCAR PRODUTO POR ID
 const buscarProdutoPorId = async (id) => {
     try {
+        const produtoId = Number(id)
+        if (isNaN(produtoId)) {
+            throw new HttpError(400, 'ID inválido')
+        }
+
         const produto = await prisma.product.findUnique({
-            where: { id: Number(id) },
+            where: { id: produtoId },
+            include: { restaurant: true }
         })
+
         if (!produto) throw new HttpError(404, 'Produto não encontrado')
+
         return produto
     } catch (err) {
         if (err instanceof HttpError) throw err
@@ -59,17 +86,22 @@ const buscarProdutoPorId = async (id) => {
 // SALVAR PEDIDO
 const salvarPedido = async (userId, cart) => {
     try {
-        if (!cart || cart.length === 0)
+        if (!cart || cart.length === 0) {
             throw new HttpError(400, 'Carrinho vazio')
+        }
+
+        const total = cart.reduce((sum, item) => {
+            if (!item.product || !item.product.price) {
+                throw new HttpError(400, 'Produto inválido no carrinho')
+            }
+            return sum + item.product.price * item.quantity
+        }, 0)
 
         const order = await prisma.order.create({
             data: {
                 userId,
                 status: 'PENDENTE',
-                total: cart.reduce(
-                    (s, i) => s + i.product.price * i.quantity,
-                    0
-                ),
+                total,
                 items: {
                     create: cart.map((item) => ({
                         productId: item.product.id,
@@ -77,12 +109,15 @@ const salvarPedido = async (userId, cart) => {
                     })),
                 },
             },
-            include: { items: { include: { product: true } } },
+            include: {
+                items: { include: { product: true } }
+            },
         })
 
         return order
     } catch (err) {
         if (err instanceof HttpError) throw err
+        console.error(err)
         throw new HttpError(500, 'Erro ao salvar pedido')
     }
 }

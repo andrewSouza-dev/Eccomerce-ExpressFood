@@ -4,7 +4,11 @@ const userService = require('../services/userService')
 const listAll = async (req, res, next) => {
   try {
     const users = await userService.listAll()
-    res.render('admin/users/index', { users, user: req.session.user })
+    res.render('admin/users/index', { 
+      users, 
+      user: req.session.user,
+      msg: req.query.msg // Para exibir uma mensagem se existir
+    })
   } catch (error) {
     next(error)
   }
@@ -33,18 +37,23 @@ const listById = async (req, res, next) => {
 
 // Exibir formulário de criação
 const novoView = (req, res) => {
-  res.render('admin/users/novo', { user: req.session.user })
+  res.render('admin/users/new', { user: req.session.user })
 }
 
 // Criar usuário
 const create = async (req, res, next) => {
   try {
     const newUser = await userService.create(req.body)
-    res.json(newUser)
+    // Renderiza uma view amigável
+    res.render('admin/users/success', { 
+      user: req.session.user, 
+      newUser 
+    })
   } catch (error) {
     next(error)
   }
 }
+
 
 
 // Exibir formulário de edição
@@ -52,7 +61,7 @@ const editarView = async (req, res, next) => {
   try {
     const id = Number(req.params.id)
     const usuario = await userService.listById(id)
-    res.render('admin/users/editar', { usuario, user: req.session.user })
+    res.render('admin/users/edit', { usuario, user: req.session.user })
   } catch (error) {
     next(error)
   }
@@ -63,8 +72,8 @@ const editarView = async (req, res, next) => {
 const update = async (req, res, next) => {
   try {
     const id = Number(req.params.id)
-    const updated = await userService.update(id, req.body)
-    res.json(updated)
+    await userService.update(id, req.body)
+    res.redirect('/admin/users?msg=Usuario+editado+com+sucesso')
   } catch (error) {
     next(error)
   }
@@ -74,8 +83,8 @@ const update = async (req, res, next) => {
 const remove = async (req, res, next) => {
   try {
     const id = Number(req.params.id)
-    const deleted = await userService.remove(id)
-    res.json(deleted)
+    await userService.remove(id)
+    res.redirect(`/admin/users?msg=Usuário removido com sucesso`)
   } catch (error) {
     next(error)
   }

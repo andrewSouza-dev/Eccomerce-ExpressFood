@@ -1,15 +1,17 @@
-const express = require('express')
-const router = express.Router()
+const express = require('express');
+const router = express.Router();
 
-// Rotas de domínio
-const adminRoutes = require('../routes/adminRoutes')
+const authRoutes = require('../routes/authRoutes');
+const adminRoutes = require('../routes/adminRoutes');
+const viewsRoutes = require('../routes/viewsRoutes');
 
-// Funcionalidades
-const authRoutes = require('../routes/authRoutes')
-const viewsRoutes = require('../routes/viewsRoutes')
+// Rotas públicas de autenticação
+router.use('/auth', authRoutes);
 
-router.use('/auth', authRoutes)
-router.use('/admin', adminRoutes)
-router.use('/', viewsRoutes)
+// Rotas do admin (protegidas)
+router.use('/admin', adminRoutes);
 
-module.exports = router
+// Rotas gerais/views (algumas protegidas individualmente)
+router.use('/', viewsRoutes);
+
+module.exports = router;

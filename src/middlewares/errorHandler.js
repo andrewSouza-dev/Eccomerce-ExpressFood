@@ -4,16 +4,13 @@ const errorHandler = (err, req, res, next) => {
 
   console.error('Erro capturado:', err)
 
-  // Se for requisição HTML (navegador), renderiza a view de erro
   if (req.accepts('html')) {
-    return res.status(status).render('error/error', {
-      status,
-      message,
-    })
+    // Renderiza diretamente a view de erro
+    return res.status(status).render('error/error', { status, message })
   }
 
-  // Se for requisição API (JSON)
-  res.status(status).json({ error: message })
+  // Se for API (JSON)
+  return res.status(status).json({ status, error: message })
 }
 
-module.exports =  errorHandler 
+module.exports = errorHandler

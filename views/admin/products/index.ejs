@@ -1,15 +1,35 @@
-
+<%- include('../../partials/menu') %>
 
 <h2>Produtos</h2>
-<a href="/admin/produtos/novo">Novo Produto</a>
-<ul>
-  <% produtos.forEach(p => { %>
-    <li>
-      <a href="/admin/produtos/<%= p.id %>"><%= p.name %></a>
-      (<a href="/admin/produtos/<%= p.id %>/editar">Editar</a> |
-       <form action="/admin/produtos/<%= p.id %>/excluir" method="POST" style="display:inline">
-         <button type="submit">Excluir</button>
-       </form>)
-    </li>
-  <% }) %>
-</ul>
+
+<%- include('../../partials/alert', { msg: msg, type: 'success' }) %>
+
+
+<a href="produtos/novo">Novo Produto</a>
+
+<table border="1" cellpadding="8" cellspacing="0">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nome</th>
+      <th>Ações</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% products.forEach(p => { %>
+      <tr>
+        <td><%= p.id %></td>
+        <td><a href="/admin/produtos/<%= p.id %>"><%= p.name %></a></td>
+        <td>
+          <a href="/admin/produtos/<%= p.id %>/editar">Editar</a> |
+          <form action="/admin/produtos/<%= p.id %>/excluir" method="POST" style="display:inline">
+            <button type="submit">Excluir</button>
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+
+<%- include('../../partials/footer') %>
+

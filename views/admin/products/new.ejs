@@ -1,14 +1,24 @@
-
+<%- include('../../partials/menu') %>
 
 <h2>Novo Produto</h2>
 <form action="/admin/produtos" method="POST">
-  <input type="text" name="name" placeholder="Nome" required />
-  <input type="number" name="price" placeholder="Preço" step="0.01" required />
-  <input type="text" name="imagemURL" placeholder="URL da imagem" />
-  <select name="restaurantId">
+  <label for="name">Nome:</label>
+  <input type="text" id="name" name="name" required />
+
+  <label for="price">Preço:</label>
+  <input type="number" id="price" name="price" step="0.01" required />
+
+  <label for="imagemURL">Imagem:</label>
+  <input type="text" id="imagemURL" name="imagemURL" />
+
+  <label for="restaurantId">Restaurante:</label>
+  <select id="restaurantId" name="restaurantId" required>
     <% restaurantes.forEach(r => { %>
       <option value="<%= r.id %>"><%= r.name %></option>
     <% }) %>
   </select>
+
   <button type="submit">Criar</button>
 </form>
+
+<%- include('../../partials/footer') %>

@@ -1,14 +1,26 @@
-
+<%- include('../../partials/menu') %>
 
 <h2>Editar Produto</h2>
 <form action="/admin/produtos/<%= produto.id %>/editar" method="POST">
-  <input type="text" name="name" value="<%= produto.name %>" required />
-  <input type="number" name="price" value="<%= produto.price %>" step="0.01" required />
-  <input type="text" name="imagemURL" value="<%= produto.imagemURL %>" />
-  <select name="restaurantId">
+  <label for="name">Nome:</label>
+  <input type="text" id="name" name="name" value="<%= produto.name %>" required />
+
+  <label for="price">Preço:</label>
+  <input type="number" id="price" name="price" value="<%= produto.price %>" step="0.01" required />
+
+  <label for="imagemURL">Imagem:</label>
+  <input type="text" id="imagemURL" name="imagemURL" value="<%= produto.imagemURL %>" />
+
+  <label for="restaurantId">Restaurante:</label>
+  <select id="restaurantId" name="restaurantId" required>
     <% restaurantes.forEach(r => { %>
-      <option value="<%= r.id %>" <%= r.id === produto.restaurantId ? 'selected' : '' %>><%= r.name %></option>
+      <option value="<%= r.id %>" <%= r.id === produto.restaurantId ? 'selected' : '' %>>
+        <%= r.name %>
+      </option>
     <% }) %>
   </select>
+
   <button type="submit">Atualizar</button>
 </form>
+
+<%- include('../../partials/footer') %>

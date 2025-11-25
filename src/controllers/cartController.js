@@ -3,7 +3,7 @@ const cartService = require('../services/cartService')
 const view = async (req, res, next) => {
   try {
     const cart = await cartService.getCart(req.session.user.id)
-    res.render('client/carrinho', { cart })
+    res.render('client/cart', { cart })
   } catch (error) {
     next(error)
   }
@@ -12,7 +12,7 @@ const view = async (req, res, next) => {
 const add = async (req, res, next) => {
   try {
     await cartService.addItem(req.session.user.id, req.body.productId)
-    res.redirect('/carrinho')
+    res.redirect('/cart')
   } catch (error) {
     next(error)
   }
@@ -21,7 +21,7 @@ const add = async (req, res, next) => {
 const remove = async (req, res, next) => {
   try {
     await cartService.removeItem(req.params.id)
-    res.redirect('/carrinho')
+    res.redirect('/cart')
   } catch (error) {
     next(error)
   }
@@ -30,7 +30,7 @@ const remove = async (req, res, next) => {
 const finalizar = async (req, res, next) => {
   try {
     await cartService.finalizarPedido(req.session.user.id)
-    res.render('client/pedidoFinalizado')
+    res.render('client/confirmacao')
   } catch (error) {
     next(error)
   }

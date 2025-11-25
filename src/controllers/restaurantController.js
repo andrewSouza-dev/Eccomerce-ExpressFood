@@ -4,7 +4,11 @@ const restaurantService = require('../services/restaurantService')
 const listAll = async (req, res, next) => {
   try {
     const restaurantes = await restaurantService.listAll()
-    res.render('admin/restaurants/index', { restaurantes, user: req.session.user })
+    res.render('admin/restaurants/index', { 
+      restaurantes, 
+      user: req.session.user,
+      msg: req.query.msg
+    })
   } catch (error) {
     next(error)
   }
@@ -52,7 +56,7 @@ const edit = async (req, res, next) => {
   try {
     const id = Number(req.params.id)
     await restaurantService.update(id, req.body)
-    res.redirect('/admin/restaurantes')
+    res.redirect('/admin/restaurantes?msg=Restaurante+editado+com+sucesso')
   } catch (error) {
     next(error)
   }
@@ -63,7 +67,7 @@ const remove = async (req, res, next) => {
   try {
     const id = Number(req.params.id)
     await restaurantService.remove(id)
-    res.redirect('/admin/restaurantes')
+    res.redirect('/admin/restaurantes?msg=Restaurante+removido+com+sucesso')
   } catch (error) {
     next(error)
   }

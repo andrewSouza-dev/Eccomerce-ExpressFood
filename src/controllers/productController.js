@@ -1,10 +1,15 @@
 const productService = require('../services/productService')
+const restaurantService = require('../services/restaurantService')
 
 // Lista todos os produtos
 const listAll = async (req, res, next) => {
   try {
     const products = await productService.listAll()
-    res.render('admin/')
+    res.render('admin/products/index', { 
+      products, 
+      user: req.session.user,
+      msg: req.query.msg
+    })
   } catch (error) {
     next(error)
   }
@@ -21,19 +26,30 @@ const listById = async (req, res, next) => {
   }
 }
 
-
 // Exibir formulário de criação
-const novoView = async (req, res) => {
-  const restaurantes = await productService.listarRestaurantes()
-  res.render('admin/produtos/novo', { restaurantes, user: req.session.user })
+const novoView = async (req, res, next) => {
+  try {
+    const restaurantes = await restaurantService.listAll()
+    res.render('admin/products/new', { 
+      restaurantes,
+      user: req.session.user 
+    })
+  } catch (error) {
+    next(error)
+  }
 }
 
-
-// Criar um produto
 const create = async (req, res, next) => {
   try {
-    const newP = await productService.create(req.body)
-    res.json(newP)
+    const data = {
+      name: req.body.name,
+      price: parseFloat(req.body.price),        // converter para número
+      imagemURL: req.body.imagemURL,
+      restaurantId: Number(req.body.restaurantId) // converter para inteiro
+    }
+
+    await productService.create(data)
+    res.redirect('/admin/produtos?msg=Produto+criado+com+sucesso')
   } catch (error) {
     next(error)
   }
@@ -45,32 +61,36 @@ const editarView = async (req, res, next) => {
   try {
     const id = Number(req.params.id)
     const produto = await productService.listById(id)
-    const restaurantes = await productService.listarRestaurantes()
-    res.render('admin/produtos/editar', { produto, restaurantes, user: req.session.user })
+    const restaurantes = await restaurantService.listAll()
+    res.render('admin/products/edit', { produto, restaurantes, user: req.session.user })
   } catch (error) {
     next(error)
   }
 }
-
 
 // Atualizar produto
 const update = async (req, res, next) => {
   try {
     const id = Number(req.params.id)
-    const updateP = await productService.update(id, req.body)
-    res.json(updateP)
+    const data = {
+      name: req.body.name,
+      price: parseFloat(req.body.price),
+      imagemURL: req.body.imagemURL,
+      restaurantId: Number(req.body.restaurantId)
+    }
+    await productService.update(id, data)
+    res.redirect('/admin/produtos?msg=Produto+editado+com+sucesso')
   } catch (error) {
     next(error)
   }
 }
 
-
 // Deletar produto
 const remove = async (req, res, next) => {
   try {
     const id = Number(req.params.id)
-    const deleted = await productService.remove(id)
-    res.json(deleted)
+    await productService.remove(id)
+    res.redirect('/admin/produtos?msg=Produto+removido+com+sucesso')
   } catch (error) {
     next(error)
   }
