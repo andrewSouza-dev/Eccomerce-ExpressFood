@@ -1,10 +1,14 @@
 <%- include('../partials/menu') %>
 
-<h2><%= message %></h2>
-<p>Pedido nº <%= order.id %> criado com sucesso!</p>
+<div class="order-confirmation-page">
+  <div class="order-confirmation-container">
+    <h2><%= message %></h2>
+    <p>Pedido nº <%= order.id %> criado com sucesso!</p>
 
-<img src="https://i.pinimg.com/736x/d0/51/13/d0511371b80b3a47cf17eb04f24b494f.jpg" alt="Volte sempre" width="300" />
+    <img src="/images/pedido.png" alt="Volte sempre" class="order-image" />
 
-<a href="/home">Voltar para a página inicial</a>
+    <a href="/home" class="btn-home">Voltar para a página inicial</a>
+  </div>
+</div>
 
 <%- include('../partials/footer') %>

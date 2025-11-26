@@ -34,7 +34,9 @@ const listById = async (req, res, next) => {
   try {
     const id = Number(req.params.id)
     const restaurante = await restaurantService.listById(id)
-    res.render('admin/restaurants/show', { restaurante, user: req.session.user })
+    res.render('admin/restaurants/show', { 
+      restaurante, 
+      user: req.session.user })
   } catch (error) {
     next(error)
   }

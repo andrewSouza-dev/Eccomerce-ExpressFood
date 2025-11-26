@@ -1,26 +1,29 @@
 <%- include('../../partials/menu') %>
 
-<h2>Editar Produto</h2>
-<form action="/admin/produtos/<%= produto.id %>/editar" method="POST">
-  <label for="name">Nome:</label>
-  <input type="text" id="name" name="name" value="<%= produto.name %>" required />
+<div class="edit-container">
+  <h2>Editar Produto</h2>
 
-  <label for="price">Preço:</label>
-  <input type="number" id="price" name="price" value="<%= produto.price %>" step="0.01" required />
+  <form action="/admin/produtos/<%= produto.id %>/editar" method="POST">
+    <label>Nome:</label>
+    <input type="text" name="name" value="<%= produto.name %>" required />
 
-  <label for="imagemURL">Imagem:</label>
-  <input type="text" id="imagemURL" name="imagemURL" value="<%= produto.imagemURL %>" />
+    <label>Preço:</label>
+    <input type="number" name="price" value="<%= produto.price %>" step="0.01" required />
 
-  <label for="restaurantId">Restaurante:</label>
-  <select id="restaurantId" name="restaurantId" required>
-    <% restaurantes.forEach(r => { %>
-      <option value="<%= r.id %>" <%= r.id === produto.restaurantId ? 'selected' : '' %>>
-        <%= r.name %>
-      </option>
-    <% }) %>
-  </select>
+    <label>Imagem URL:</label>
+    <input type="text" name="imagemURL" value="<%= produto.imagemURL %>" />
 
-  <button type="submit">Atualizar</button>
-</form>
+    <label>Restaurante:</label>
+    <select name="restaurantId">
+      <% restaurantes.forEach(r => { %>
+        <option value="<%= r.id %>" <%= r.id === produto.restaurantId ? 'selected' : '' %>>
+          <%= r.name %>
+        </option>
+      <% }) %>
+    </select>
+
+    <button type="submit">Atualizar</button>
+  </form>
+</div>
 
 <%- include('../../partials/footer') %>

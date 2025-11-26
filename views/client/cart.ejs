@@ -3,7 +3,7 @@
 <div class="cart-page">
   <div class="cart-container">
     
-    <h2>Meu Carrinho</h2>
+    <h2>Meu Carrinho 🛒</h2>
 
     <% let total = 0 %>
 
@@ -50,7 +50,7 @@
         <!-- REMOVER -->
         <form action="/cart/remover" method="POST">
           <input type="hidden" name="productId" value="<%= item.product.id %>">
-          <button class="remove-btn">🗑</button>
+          <button class="remove-btn">Excluir 🗑</button>
         </form>
 
       </div>

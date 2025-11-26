@@ -1,11 +1,23 @@
 <%- include('../../partials/menu') %>
 
-<h2>Novo Restaurante</h2>
-<form action="/admin/restaurantes" method="POST">
-  <input type="text" name="name" placeholder="Nome" required />
-  <input type="text" name="address" placeholder="Endereço" required />
-  <input type="text" name="imagemURL" placeholder="URL da imagem" />
-  <button type="submit">Criar</button>
-</form>
+<div class="form-container">
+  <h2>Novo Restaurante</h2>
+
+  <form action="/admin/restaurantes" method="POST">
+
+    <label for="name">Nome:</label>
+    <input type="text" id="name" name="name" required />
+
+    <label for="address">Endereço:</label>
+    <input type="text" id="address" name="address" required />
+
+    <label for="imagemURL">Imagem (URL):</label>
+    <input type="text" id="imagemURL" name="imagemURL" />
+
+    <button type="submit" class="create-btn">Criar Restaurante</button>
+  </form>
+
+  <a href="/admin/restaurantes" class="back-btn">Voltar</a>
+</div>
 
 <%- include('../../partials/footer') %>

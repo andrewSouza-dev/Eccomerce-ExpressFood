@@ -1,35 +1,71 @@
 <%- include('../../partials/menu') %>
 
-<h2>Produtos cadastrados</h2>
+<div class="page-container">
 
-<%- include('../../partials/alert', { msg: msg, type: 'success' }) %>
+  <% if (msg) { %>
+    <div class="flash-message success"><%= msg %></div>
+  <% } %>
 
+  <h2>Produtos cadastrados 🍕</h2>
 
-<a href="produtos/novo">Novo Produto</a>
+  <a href="/admin/produtos/novo" class="action-btn create-btn">Novo Produto</a>
 
-<table border="1" cellpadding="8" cellspacing="0">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Nome</th>
-      <th>Ações</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% products.forEach(p => { %>
-      <tr>
-        <td><%= p.id %></td>
-        <td><a href="/admin/produtos/<%= p.id %>"><%= p.name %></a></td>
-        <td>
-          <a href="/admin/produtos/<%= p.id %>/editar">Editar</a> |
-          <form action="/admin/produtos/<%= p.id %>/excluir" method="POST" style="display:inline">
-            <button type="submit">Excluir</button>
-          </form>
-        </td>
-      </tr>
-    <% }) %>
-  </tbody>
-</table>
+  <div class="table-wrapper">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>Restaurante ID</th>
+          <th>Restaurante</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% products.forEach(p => { %>
+          <tr>
+            <td><%= p.id %></td>
+
+            <td><%= p.name %></td>
+
+            <td><%= p.restaurantId %></td>
+
+            <td><%= p.restaurant?.name %></td>
+
+            <td>
+
+              <!-- BOTÃO SHOW -->
+              <a href="/admin/produtos/<%= p.id %>"
+                 class="action-btn">
+                Ver
+              </a>
+
+              <!-- EDITAR -->
+              <a href="/admin/produtos/<%= p.id %>/editar"
+                 class="edit-btn">
+                Editar
+              </a>
+
+              <!-- EXCLUIR -->
+              <form action="/admin/produtos/<%= p.id %>/excluir"
+                    method="POST"
+                    style="display:inline;">
+                <button type="submit"
+                        class="action-btn delete-btn"
+                        onclick="return confirm('Tem certeza que deseja excluir?')">
+                  Excluir
+                </button>
+              </form>
+
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+
+    </table>
+  </div>
+
+</div>
 
 <%- include('../../partials/footer') %>
-

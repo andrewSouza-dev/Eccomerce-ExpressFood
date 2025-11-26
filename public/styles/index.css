@@ -6,13 +6,21 @@ body, h1, h2, p, a, input, button, ul, li {
   box-sizing: border-box;
 }
 
+
 /* ===== Fundo da página ===== */
 body {
-  background: linear-gradient(135deg, #ff6f61, #ffcc70);
+  background: linear-gradient(270deg, #ff6f61, #ffcc70, #6a5acd, #00fa9a);
+  background-size: 800% 800%;
+  animation: gradientAnimation 15s ease infinite;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  padding-top: 70px; 
 }
+
+
+
+
 
 /* ===== Container principal genérico ===== */
 .page-container {
@@ -45,6 +53,11 @@ h2 {
   color: #333;
 }
 
+
+
+
+
+
 /* ===== Formulário de busca (Home) ===== */
 #searchForm {
   display: flex;
@@ -65,7 +78,7 @@ h2 {
   padding: 10px 20px;
   border: none;
   border-radius: 8px;
-  background: #ff6f61;
+  background: #3c55e2;
   color: #fff;
   font-weight: bold;
   cursor: pointer;
@@ -73,7 +86,7 @@ h2 {
 }
 
 #searchForm button:hover {
-  background: #e85c50;
+  background: #8991fc;
 }
 
 /* ===== Lista de restaurantes ===== */
@@ -161,7 +174,7 @@ h2 {
   padding: 12px;
   border: none;
   border-radius: 8px;
-  background: #ff6f61;
+  background: #2c9c00;
   color: #fff;
   font-weight: bold;
   cursor: pointer;
@@ -169,7 +182,7 @@ h2 {
 }
 
 .form-container button:hover {
-  background: #e85c50;
+  background: #42a500;
 }
 
 .form-container button:active {
@@ -206,6 +219,11 @@ h2 {
   padding: 40px 20px;
 }
 
+
+
+
+
+
 /* ===== Página de restaurante ===== */
 .restaurant-page {
   flex: 1;
@@ -213,7 +231,6 @@ h2 {
   justify-content: center;
   align-items: flex-start;
   padding: 40px 20px;
-  background: linear-gradient(135deg, #ff6f61, #ffcc70);
 }
 
 /* ===== Container principal ===== */
@@ -230,6 +247,15 @@ h2 {
   align-items: center;
   text-align: center;
 }
+
+
+.restaurant-container h3 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
 
 /* ===== Imagem do restaurante ===== */
 .restaurant-image {
@@ -280,6 +306,7 @@ h2 {
   border-radius: 8px;
   margin: 10px auto;
   display: block;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
 
 /* ===== Formulário de adicionar ao carrinho ===== */
@@ -297,13 +324,14 @@ h2 {
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 14px;
+  text-align: center;
 }
 
 .add-cart-form button {
   padding: 8px 16px;
   border: none;
   border-radius: 6px;
-  background: #ff6f61;
+  background: #4677e2;
   color: #fff;
   font-weight: bold;
   cursor: pointer;
@@ -311,13 +339,16 @@ h2 {
 }
 
 .add-cart-form button:hover {
-  background: #e85c50;
+  background: #7a8eff;
 }
+
+
+
 
 .cart-container {
     width: 420px;
     background: #ffffff;
-    margin: 50px auto;
+    margin: 150px auto;
     padding: 25px;
     border-radius: 18px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.12);
@@ -417,6 +448,66 @@ h2 {
 .pay-btn:hover {
     opacity: .9;
 }
+ 
+
+
+
+/* Página de confirmação */
+.order-confirmation-page {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+/* Container centralizado */
+.order-confirmation-container {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+  text-align: center;
+  max-width: 600px;
+  width: 100%;
+  animation: fadeIn 0.6s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Imagem centralizada */
+.order-image {
+  width: 300px;
+  max-width: 100%;
+  margin: 30px 0;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  display: block;
+}
+
+/* Botão centralizado */
+.btn-home {
+  display: inline-block;
+  padding: 12px 24px;
+  background: #0026ff;
+  color: #fff;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.3s ease;
+  margin-top: 20px;
+  text-align: center;
+}
+.btn-home:hover {
+  background: #e85c50;
+}
+
+
+
+
+
+
 
 
 /* ===== Página de erro ===== */
@@ -451,7 +542,7 @@ h2 {
   display: inline-block;
   margin: 10px;
   padding: 12px 20px;
-  background: #ff6f61;
+  background: #6198ff;
   color: #fff;
   border: none;
   border-radius: 8px;
@@ -461,7 +552,7 @@ h2 {
 }
 
 .error-container .btn:hover {
-  background: #e85c50;
+  background: #152cff;
 }
 
 
@@ -476,7 +567,7 @@ h2 {
 
 .search-result-card {
   background: rgba(255, 255, 255, 0.97);
-  width: 600px; /* Aumentei de ~380 → 600px */
+  width: 800px; /* Aumentei de ~380 → 600px */
   padding: 30px 40px;
   border-radius: 18px;
   box-shadow: 0 10px 26px rgba(0, 0, 0, 0.15);
@@ -508,6 +599,7 @@ h2 {
   cursor: pointer;
   color: #fff;
   font-weight: bold;
+  text-decoration: none;
 }
 
 .search-view-btn {
@@ -519,14 +611,12 @@ h2 {
 }
 
 .search-add-btn {
-  background: #ff6f61;
+  background: #0011ff;
 }
 
 .search-add-btn:hover {
-  background: #e85c50;
+  background: #91b4ff;
 }
-
-
 
 
 
@@ -536,53 +626,75 @@ h2 {
 footer {
   text-align: center;
   padding: 20px;
-  color: #fff;
+  color: #000000;
   font-size: 14px;
   margin-top: auto;
+  font-weight: bold;
 }
 
 
 
-/* ===== Animação suave ===== */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+
+
+
+/*  PAINEL DE ADMIN  */
+/* ===== Estilo especial para o Painel Administrativo ===== */
+.admin-panel {
+  margin: auto auto;
+  background: rgba(255,255,255,0.92);
+  padding: 40px 50px;
+  border-radius: 18px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  text-align: center;
+  max-width: 600px;
+  animation: fadeIn 0.6s ease;
 }
 
 
-
-/* ===== Responsivo ===== */
-@media (max-width: 600px) {
-  .cart-container {
-    padding: 20px;
-  }
-
-  .cart-container li {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-
-  .cart-container h3 {
-    text-align: center;
-  }
+.admin-panel h2 {
+  font-size: 28px;
+  margin-bottom: 15px;
+  color: #222;
 }
 
-@media (max-width: 768px) {
-  .restaurant-card {
-    width: 100%;
-    max-width: 300px;
-  }
 
-  #searchForm input {
-    width: 100%;
-    max-width: 300px;
-  }
-
-  .form-container {
-    max-width: 90%;
-  }
+.admin-panel p {
+  margin-bottom: 20px;
+  font-size: 16px;
+  color: #444;
 }
+
+
+.admin-panel ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 10px;
+}
+
+
+.admin-panel ul li {
+  margin: 12px 0;
+}
+
+
+.admin-panel ul li a {
+  display: inline-block;
+  padding: 12px 20px;
+  background: #61ffea;
+  color: #000000;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: 0.3s ease;
+}
+
+
+.admin-panel ul li a:hover {
+  background: #bfffef;
+  transform: translateY(-2px);
+}
+
+
 
 /* ======================================== */
 /* ====== ✨ MELHORIAS DA TABELA ✨ ====== */
@@ -621,8 +733,8 @@ table td {
 /* ===== Botões da tabela ===== */
 .action-btn {
   padding: 8px 12px;
-  background: #ff6f61;
-  color: #fff;
+  background: #4bce00;
+  color: #000000;
   border-radius: 6px;
   text-decoration: none;
   transition: 0.3s;
@@ -631,11 +743,26 @@ table td {
 }
 
 .action-btn:hover {
-  background: #e85c50;
+  background: #8fff79;
 }
+
+
+
+.edit-btn {
+  padding: 8px 12px;
+  background: #fffb00;
+  color: #000000;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: 0.3s;
+  font-size: 14px;
+  display: inline-block;
+}
+
 
 .delete-btn {
   background: #c62828;
+  color: #fff;
 }
 
 .delete-btn:hover {
@@ -652,3 +779,138 @@ table td {
 .create-btn:hover {
   background: #449d48;
 }
+
+
+
+
+
+
+
+
+/* ======== ESTILO FORMULÁRIOS DE EDIÇÃO ======== */
+
+.edit-container {
+  max-width: 500px;
+  margin: 40px auto;
+  padding: 25px;
+  background: #ffffffcc;
+  border-radius: 18px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  backdrop-filter: blur(5px);
+}
+
+.edit-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 26px;
+  color: #333;
+}
+
+.edit-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.edit-container label {
+  font-weight: 600;
+  color: #222;
+}
+
+.edit-container input,
+.edit-container select {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+}
+
+.edit-container input:focus,
+.edit-container select:focus {
+  outline: none;
+  border-color: #ff7f50;
+  box-shadow: 0 0 6px rgba(255, 127, 80, 0.6);
+}
+
+.edit-container button {
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  background: #ff7f50;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.edit-container button:hover {
+  background: #e96a3e;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ===== Animação suave ===== */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+ @keyframes gradientAnimation {
+  0% {background-position: 0% 50%;}
+  50% {background-position: 100% 50%;}
+  100% {background-position: 0% 50%;}
+}
+
+
+
+
+/* ===== Responsividade ===== */
+@media (max-width: 600px) {
+  .cart-container {
+    padding: 20px;
+  }
+
+  .cart-container li {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .cart-container h3 {
+    text-align: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .restaurant-card {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  #searchForm input {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .form-container {
+    max-width: 90%;
+  }
+}
+
+
+
+

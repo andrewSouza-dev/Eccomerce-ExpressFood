@@ -16,8 +16,12 @@ const listAll = async (req, res, next) => {
 
 const listarView = async (req, res, next) => {
   try {
-    const users = await userService.listAll()
-    res.render('admin/users/show', { users, user: req.session.user })
+    const id = Number(req.params.id)
+    const user = await userService.listById(id)
+    res.render('admin/users/show', { 
+      user, 
+      user: req.session.user 
+    })
   } catch (error) {
     next(error)
   }
@@ -27,8 +31,11 @@ const listarView = async (req, res, next) => {
 const listById = async (req, res, next) => {
   try {
     const id = Number(req.params.id)
-    const user = await userService.listById(id)
-    res.json(user)
+    const usuario = await userService.listById(id)
+    res.render('admin/users/show', { 
+      usuario, 
+      user: req.session.user 
+    })
   } catch (error) {
     next(error)
   }

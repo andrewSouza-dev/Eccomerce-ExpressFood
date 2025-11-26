@@ -1,15 +1,29 @@
 <%- include('../../partials/menu') %>
 
-<h2>Novo Usuário</h2>
-<form action="/admin/users" method="POST">
-  <input type="text" name="name" placeholder="Nome" required />
-  <input type="email" name="email" placeholder="Email" required />
-  <input type="password" name="password" placeholder="Senha" required />
-  <select name="role">
-    <option value="CLIENTE">CLIENTE</option>
-    <option value="ADMIN">ADMIN</option>
-  </select>
-  <button type="submit">Criar</button>
-</form>
+<div class="form-container">
+  <h2>Novo Usuário</h2>
+
+  <form action="/admin/users" method="POST">
+
+    <label>Nome:</label>
+    <input type="text" name="name" required />
+
+    <label>Email:</label>
+    <input type="email" name="email" required />
+
+    <label>Senha:</label>
+    <input type="password" name="password" required />
+
+    <label>Função:</label>
+    <select name="role">
+      <option value="CLIENTE">CLIENTE</option>
+      <option value="ADMIN">ADMIN</option>
+    </select>
+
+    <button type="submit" class="create-btn">Criar Usuário</button>
+  </form>
+
+  <a href="/admin/users" class="back-btn">Voltar</a>
+</div>
 
 <%- include('../../partials/footer') %>

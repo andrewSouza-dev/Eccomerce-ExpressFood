@@ -1,14 +1,23 @@
 <%- include('../../partials/menu') %>
 
-<h2>Editar Usuário</h2>
-<form action="/admin/users/<%= usuario.id %>/editar" method="POST">
-  <input type="text" name="name" value="<%= usuario.name %>" required />
-  <input type="email" name="email" value="<%= usuario.email %>" required />
-  <select name="role">
-    <option value="CLIENTE" <%= usuario.role === 'CLIENTE' ? 'selected' : '' %>>CLIENTE</option>
-    <option value="ADMIN" <%= usuario.role === 'ADMIN' ? 'selected' : '' %>>ADMIN</option>
-  </select>
-  <button type="submit">Atualizar</button>
-</form>
+<div class="edit-container">
+  <h2>Editar Usuário</h2>
+
+  <form action="/admin/users/<%= usuario.id %>/editar" method="POST">
+    <label>Nome:</label>
+    <input type="text" name="name" value="<%= usuario.name %>" required />
+
+    <label>Email:</label>
+    <input type="email" name="email" value="<%= usuario.email %>" required />
+
+    <label>Função:</label>
+    <select name="role" required>
+      <option value="CLIENTE" <%= usuario.role === 'CLIENTE' ? 'selected' : '' %>>CLIENTE</option>
+      <option value="ADMIN" <%= usuario.role === 'ADMIN' ? 'selected' : '' %>>ADMIN</option>
+    </select>
+
+    <button type="submit">Atualizar</button>
+  </form>
+</div>
 
 <%- include('../../partials/footer') %>

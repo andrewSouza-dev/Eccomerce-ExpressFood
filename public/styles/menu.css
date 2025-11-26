@@ -1,16 +1,53 @@
 /* ===== Menu principal ===== */
 .main-nav {
   display: flex;
-  justify-content: center;   /* centraliza os links */
+  justify-content: space-between;   
   align-items: center;
-  gap: 20px;                 /* espaço entre os links */
-  background: #333;          /* cor de fundo do menu */
-  padding: 15px 0;
+  gap: 20px;                 
+  background: #222;          
+  padding: 10px 20px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999;       /* fica por cima de tudo */
+  border-bottom: 1px solid #ddd;
 }
+
+
+/* Logo a esquerda */
+.nav-left .logo {
+  height: 60px;
+  width: auto;
+}
+
+
+/* Centralizar os links */
+.nav-center .nav-link {
+  margin: 0 10px;
+}
+
+
+/* Botão voltar a direita */
+.nav-right .voltar {
+  background: #e74c3c;
+  padding: 8px 15px;
+  border-radius: 6px;
+  font-weight: bold;
+  color: #fff;
+  margin-right: 50px;
+}
+
+
+/* Hover do botão voltar*/
+.nav-right .voltar:hover {
+  background: #c0392b;
+}
+
 
 /* Links do menu */
 .main-nav .nav-link {
-  color: #fff;               /* cor do texto */
+  color: #fff;           
   font-weight: 600;
   text-decoration: none;
   padding: 8px 16px;
@@ -18,14 +55,27 @@
   transition: background 0.3s ease, color 0.3s ease;
 }
 
+
 /* Hover nos links */
 .main-nav .nav-link:hover {
-  background: #ff6f61;       /* fundo vermelho suave */
-  color: #fff;               /* mantém texto branco */
+  background: #1c8d9c;       
+  color: #fff;               
 }
 
-/* Link ativo (opcional) */
+
+/* Link ativo */
 .main-nav .nav-link.active {
-  background: #ffcc70;       /* destaque em amarelo */
+  background: #ce21b1;      
   color: #333;
+}
+
+
+/* Botão de voltar do menu */
+.main-nav .voltar {
+  background: #020fbd;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  margin-right: 50px;
+  font-weight: bold;
 }

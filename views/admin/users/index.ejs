@@ -1,38 +1,68 @@
 <%- include('../../partials/menu') %>
 
-<h2>Usuários cadastrados</h2>
+<div class="page-container">
 
-<%- include('../../partials/alert', { msg: msg, type: 'success' }) %>
+  <% if (msg) { %>
+    <div class="flash-message success"><%= msg %></div>
+  <% } %>
 
+  <h2>Usuários cadastrados 👤</h2>
 
-<table border="1" cellpadding="8" cellspacing="0">
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Nome</th>
-      <th>Email</th>
-      <th>Função</th>
-      <th>Ações</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% users.forEach(u => { %>
-      <tr>
-        <td><%= u.id %></td>
-        <td><%= u.name %></td>
-        <td><%= u.email %></td>
-        <td><%= u.role %></td>
-        <td>
-          <a href="/admin/users/<%= u.id %>/editar">Editar</a>
-          <form action="/admin/users/<%= u.id %>/excluir" method="POST" style="display:inline;">
-            <button type="submit" onclick="return confirm('Tem certeza que deseja excluir?')">Excluir</button>
-          </form>
-        </td>
-      </tr>
-    <% }) %>
-  </tbody>
-</table>
+   <a href="/admin/users/novo" class="action-btn create-btn">
+    Criar novo usuário
+  </a>
 
-<a href="/admin/users/novo">Criar novo usuário</a>
+  <div class="table-wrapper">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>Email</th>
+          <th>Função</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <% users.forEach(u => { %>
+          <tr>
+            <td><%= u.id %></td>
+            <td><%= u.name %></td>
+            <td><%= u.email %></td>
+            <td><%= u.role %></td>
+            <td>
+
+              <!-- BOTÃO SHOW -->
+              <a href="/admin/users/<%= u.id %>" class="action-btn">
+                Ver
+              </a>
+
+              <!-- EDITAR -->
+              <a href="/admin/users/<%= u.id %>/editar" class="edit-btn">
+                Editar
+              </a>
+
+              <!-- EXCLUIR -->
+              <form action="/admin/users/<%= u.id %>/excluir"
+                    method="POST"
+                    style="display:inline;">
+                <button type="submit"
+                        class="action-btn delete-btn"
+                        onclick="return confirm('Tem certeza que deseja excluir?')">
+                  Excluir
+                </button>
+              </form>
+
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+
+ 
+
+</div>
 
 <%- include('../../partials/footer') %>

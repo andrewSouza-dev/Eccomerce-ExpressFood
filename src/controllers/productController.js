@@ -7,7 +7,7 @@ const listAll = async (req, res, next) => {
     const products = await productService.listAll()
     res.render('admin/products/index', { 
       products, 
-      user: req.session.user,
+      
       msg: req.query.msg
     })
   } catch (error) {
@@ -19,8 +19,11 @@ const listAll = async (req, res, next) => {
 const listById = async (req, res, next) => {
   try {
     const id = Number(req.params.id)
-    const product = await productService.listById(id)
-    res.json(product)
+    const produto = await productService.listById(id)
+    res.render('admin/products/show', {
+      produto,
+      user: req.session.user,
+    })
   } catch (error) {
     next(error)
   }
@@ -62,7 +65,10 @@ const editarView = async (req, res, next) => {
     const id = Number(req.params.id)
     const produto = await productService.listById(id)
     const restaurantes = await restaurantService.listAll()
-    res.render('admin/products/edit', { produto, restaurantes, user: req.session.user })
+    res.render('admin/products/edit', { 
+      produto,
+      restaurantes, 
+      user: req.session.user })
   } catch (error) {
     next(error)
   }

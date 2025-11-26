@@ -1,14 +1,45 @@
 <%- include('../../partials/menu') %>
 
+<div class="page-container">
 
-<h2>Detalhes do Produto</h2>
-<p><strong>Nome:</strong> <%= produto.name %></p>
-<p><strong>Preço:</strong> R$ <%= produto.price %></p>
-<% if (produto.imagemURL) { %>
-  <img src="<%= produto.imagemURL %>" alt="Imagem do produto" width="200" />
-<% } %>
-<p><strong>Restaurante:</strong> <%= produto.restaurant?.name %></p>
+  <h2>Detalhes do Produto</h2>
 
-<a href="/admin/produtos/<%= produto.id %>/editar">Editar</a>
+  <div class="detail-card">
+
+    <p><strong>ID:</strong> <%= produto.id %></p>
+    <p><strong>Nome:</strong> <%= produto.name %></p>
+
+    <p>
+      <strong>Preço:</strong>
+      R$ <%= produto.price.toFixed(2) %>
+    </p>
+
+    <% if (produto.imagemURL) { %>
+      <div class="product-image">
+        <img src="<%= produto.imagemURL %>"
+             alt="Imagem do produto">
+      </div>
+    <% } %>
+
+    <p>
+      <strong>Restaurante:</strong>
+      <%= produto.restaurant?.name || '—' %>
+    </p>
+
+    <div class="action-area">
+      <a href="/admin/produtos/<%= produto.id %>/editar"
+         class="action-btn">
+        Editar
+      </a>
+
+      <a href="/admin/produtos"
+         class="action-btn create-btn">
+        Voltar
+      </a>
+    </div>
+
+  </div>
+
+</div>
 
 <%- include('../../partials/footer') %>

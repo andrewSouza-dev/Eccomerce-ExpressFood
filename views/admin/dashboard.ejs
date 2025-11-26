@@ -1,17 +1,28 @@
 <%- include('../partials/menu') %>
 
-<div class="page-container">
+<div class="admin-panel">
+
   <% if (success) { %>
     <p class="success"><%= success %></p>
   <% } %>
-  
-<h2>Painel Administrativo</h2>
-<p>Bem-vindo, <%= user.name %>!</p>
 
-<ul>
-  <li><a href="/admin/users">Gerenciar usuários</a></li>
-  <li><a href="/admin/restaurantes">Gerenciar restaurantes</a></li>
-  <li><a href="/admin/produtos">Gerenciar produtos</a></li>
-</ul>
+  <div class="admin-card">
+    <h2>Painel Administrativo 👨🏽‍💼</h2>
+    <p class="admin-welcome">Bem-vindo, <strong><%= user.name %></strong>!</p>
+
+    <ul class="admin-options">
+      <li>
+        <a href="/admin/users" class="admin-btn">Gerenciar usuários</a>
+      </li>
+      <li>
+        <a href="/admin/restaurantes" class="admin-btn">Gerenciar restaurantes</a>
+      </li>
+      <li>
+        <a href="/admin/produtos" class="admin-btn">Gerenciar produtos</a>
+      </li>
+    </ul>
+  </div>
+
+</div>
 
 <%- include('../partials/footer') %>

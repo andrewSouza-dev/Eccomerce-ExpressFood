@@ -6,10 +6,14 @@
     <div class="flash-message success"><%= msg %></div>
   <% } %>
 
-  <h2>Restaurantes Cadastrados</h2>
+  <h2>Restaurantes Cadastrados 🍔</h2>
+
+  <a href="/admin/restaurantes/novo" class="action-btn create-btn">
+    Criar novo restaurante
+  </a>
 
   <div class="table-wrapper">
-    <table>
+    <table class="table">
       <thead>
         <tr>
           <th>ID</th>
@@ -26,16 +30,28 @@
             <td><%= r.name %></td>
             <td><%= r.address %></td>
             <td>
-              <a href="/admin/restaurantes/<%= r.id %>/editar" class="action-btn">Editar</a>
 
+              <!-- BOTÃO SHOW -->
+              <a href="/admin/restaurantes/<%= r.id %>" class="action-btn">
+                Ver
+              </a>
+
+              <!-- EDITAR -->
+              <a href="/admin/restaurantes/<%= r.id %>/editar" class="edit-btn">
+                Editar
+              </a>
+
+              <!-- EXCLUIR -->
               <form action="/admin/restaurantes/<%= r.id %>/excluir"
-                    method="POST" style="display:inline;">
+                    method="POST"
+                    style="display:inline;">
                 <button type="submit"
                         class="action-btn delete-btn"
                         onclick="return confirm('Tem certeza que deseja excluir?')">
                   Excluir
                 </button>
               </form>
+
             </td>
           </tr>
         <% }) %>
@@ -43,9 +59,7 @@
     </table>
   </div>
 
-  <a href="/admin/restaurantes/novo" class="action-btn create-btn">
-    Criar novo restaurante
-  </a>
+  
 
 </div>
 

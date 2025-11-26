@@ -1,26 +1,101 @@
-<% const u = typeof user !== 'undefined' ? user : null; %>
+<% const u = (typeof user !== 'undefined' && user) ? user : null; %>
+
 
 <%- include('head', { title: 'FoodExpress 🍽️' }) %>
 
+
 <nav class="main-nav">
-  <% if (u) { %>
-    <% if (u.isAdmin) { %>
 
-      <!-- Admin vê apenas Admin + Sair -->
-      <a href="/admin" class="nav-link">Admin</a>
-      <a href="/auth/logout" class="nav-link">Sair</a>
+  <!-- LOGO À ESQUERDA -->
+  <div class="nav-left">
+    <a href="/">
+      <img src="/images/logo.png" alt="Logo" class="logo">
+    </a>
+  </div>
+
+  <!-- LINKS CENTRAIS -->
+  <div class="nav-center">
+    <% if (u) { %>
+      <% if (u.isAdmin) { %>
+        <a href="/admin" class="nav-link">Admin</a>
+        <a href="/auth/logout" class="nav-link">Sair</a>
+      <% } else { %>
+        <a href="/home" class="nav-link">Início</a>
+        <a href="/cart" class="nav-link">Carrinho</a>
+        <a href="/auth/logout" class="nav-link">Sair</a>
+      <% } %>
     <% } else { %>
-
-      <!-- Cliente vê Home + Carrinho + Sair -->
-      <a href="/home" class="nav-link">Inicio</a>
-      <a href="/cart" class="nav-link">Carrinho</a>
-      <a href="/auth/logout" class="nav-link">Sair</a>
+      <a href="/auth/login" class="nav-link">Login</a>
+      <a href="/auth/cadastro" class="nav-link">Cadastro</a>
     <% } %>
-  <% } else { %>
+  </div>
 
-    <!-- Não logado vê Login + Cadastro -->
-    <a href="/auth/login" class="nav-link">Login</a>
-    <a href="/auth/cadastro" class="nav-link">Cadastro</a>
-    <a href="/" class="nav-link">Sair</a>
-  <% } %>
+ <!-- BOTÃO VOLTAR À DIREITA -->
+<div class="nav-right">
+  <a href="#"
+     id="btn-voltar"
+     class="nav-link voltar"
+     onclick="return handleGoBack(event)">
+    ← Voltar
+  </a>
+</div>
+
+<script>
+  // Lista de rotas onde NÃO queremos habilitar o "Voltar"
+  const NO_BACK_PATHS = ['/auth/login', '/auth/cadastro', '/'];
+
+  function handleGoBack(e) {
+    e.preventDefault();
+
+    const path = window.location.pathname;
+
+    // se estiver em uma rota bloqueada => não volta (ou redireciona para /home)
+    if (NO_BACK_PATHS.includes(path)) {
+      // opcional: redirecionar para home em vez de nada
+      // window.location.href = '/home';
+      return false;
+    }
+
+    // se o histórico tiver páginas válidas -> volta
+    if (window.history.length > 1) {
+      // adicional: checar se document.referrer é da mesma origem ou existe
+      try {
+        if (document.referrer && new URL(document.referrer).origin === location.origin) {
+          window.history.back();
+          return false;
+        } else if (document.referrer) {
+          // se veio de outro domínio, ainda faz back (ou redireciona)
+          window.history.back();
+          return false;
+        } else {
+          // sem referrer -> redireciona pra home (não voltar para lugar estranho)
+          window.location.href = '/';
+          return false;
+        }
+      } catch (err) {
+        // se erro no URL parsing, apenas tenta voltar
+        window.history.back();
+        return false;
+      }
+    } else {
+      // histórico insuficiente -> ir para home (ou não fazer nada)
+      window.location.href = '/';
+      return false;
+    }
+  }
+
+  // opcional: deixar o botão visualmente desabilitado nas rotas proibidas
+  (function disableOnPaths(){
+    const path = window.location.pathname;
+    const btn = document.getElementById('btn-voltar');
+    if (!btn) return;
+    if (['/auth/login','/auth/cadastro','/'].includes(path)) {
+      btn.classList.add('disabled');
+      btn.setAttribute('aria-disabled', 'true');
+      btn.style.pointerEvents = 'none';
+      btn.style.opacity = '0.5';
+    }
+  })();
+</script>
+
 </nav>
