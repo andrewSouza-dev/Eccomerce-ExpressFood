@@ -133,15 +133,43 @@ Com relações totalmente configuradas.
 
 ## 📸 Imagens e Assets
 
-![Logo](https://raw.githubusercontent.com/andrewSouza-dev/Eccomerce-ExpressFood/main/public/images/logo.png)
+![Tela Inicial](/public/images/TelaInicial.png)
 
-![Tela Inicial](https://raw.githubusercontent.com/andrewSouza-dev/Eccomerce-ExpressFood/main/public/images/TelaInicial.png)
+--
 
-![Login](https://raw.githubusercontent.com/andrewSouza-dev/Eccomerce-ExpressFood/main/public/images/pedido.png)
+![Login](public/images/login.png)
 
-![Home(cliente)](https://raw.githubusercontent.com/andrewSouza-dev/Eccomerce-ExpressFood/main/public/images/logo.png)
+--
 
-![Admin](https://raw.githubusercontent.com/andrewSouza-dev/Eccomerce-ExpressFood/main/public/images/logo.png)
+![Cadastro](public/images/cadastro.png)
+
+--
+
+![Home(cliente)](/public/images/home.png)
+
+--
+
+![Carrinho](/public/images/carrinho.png)
+
+--
+
+![Restaurantes](/public/images/restaurante.png)
+
+--
+
+![Busca](/public/images/busca.png)
+
+--
+
+![Pedido Finalizado](/public/images/pedidoFinalizado.png)
+
+--
+
+![Admin](/public/images/admin.png)
+
+--
+
+![Crud(ADMIN)](/public/images/crud.png)
 
 --
 
