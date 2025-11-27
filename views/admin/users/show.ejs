@@ -1,10 +1,11 @@
 <%- include('../../partials/menu') %>
 
-<h2>Detalhes do Usuário</h2>
-<p><strong>Nome:</strong> <%= usuario.name %></p>
-<p><strong>Email:</strong> <%= usuario.email %></p>
-<p><strong>Tipo:</strong> <%= usuario.role %></p>
-<a href="/admin/users/<%= usuario.id %>/editar">Editar</a>
-
+<div class="card">
+  <h2>Detalhes do Usuário</h2>
+  <p><strong>Nome:</strong> <%= usuario.name %></p>
+  <p><strong>Email:</strong> <%= usuario.email %></p>
+  <p><strong>Tipo:</strong> <%= usuario.role %></p>
+  <a class="btn" href="/admin/users/<%= usuario.id %>/editar">Editar</a>
+</div>
 
 <%- include('../../partials/footer') %>

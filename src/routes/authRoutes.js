@@ -13,4 +13,5 @@ router.post('/cadastro', authController.cadastrar)
 // Logout (público)
 router.get('/logout', authController.logout)
 
+
 module.exports = router

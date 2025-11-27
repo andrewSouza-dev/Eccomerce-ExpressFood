@@ -1,20 +1,22 @@
 <%- include('../../partials/menu') %>
 
+<div class="card">
+  <h2>Detalhes do Restaurante</h2>
+  <p><strong>Nome:</strong> <%= restaurante.name %></p>
+  <p><strong>Endereço:</strong> <%= restaurante.address %></p>
 
-<h2>Detalhes do Restaurante</h2>
-<p><strong>Nome:</strong> <%= restaurante.name %></p>
-<p><strong>Endereço:</strong> <%= restaurante.address %></p>
-<% if (restaurante.imagemURL) { %>
-  <img src="<%= restaurante.imagemURL %>" alt="Imagem do restaurante" width="200" />
-<% } %>
+  <% if (restaurante.imagemURL) { %>
+    <img src="<%= restaurante.imagemURL %>" alt="Imagem do restaurante" class="restaurant-img" />
+  <% } %>
 
-<h3>Produtos</h3>
-<ul>
-  <% restaurante.products.forEach(p => { %>
-    <li><%= p.name %> - R$ <%= p.price %></li>
-  <% }) %>
-</ul>
+  <h3>Produtos</h3>
+  <ul>
+    <% restaurante.products.forEach(p => { %>
+      <li><%= p.name %> - R$ <%= p.price.toFixed(2) %></li>
+    <% }) %>
+  </ul>
 
-<a href="/admin/restaurantes/<%= restaurante.id %>/editar">Editar</a>
+  <a class="btn" href="/admin/restaurantes/<%= restaurante.id %>/editar">Editar</a>
+</div>
 
 <%- include('../../partials/footer') %>

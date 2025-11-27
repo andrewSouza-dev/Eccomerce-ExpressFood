@@ -97,8 +97,10 @@ const login = async (req, res, next) => {
 const logout = (req, res) => {
   req.session.destroy(err => {
     if (err) console.error('Erro ao destruir sessão:', err);
-    res.redirect('/auth/login');
+    res.redirect('/');
   });
 };
+
+
 
 module.exports = { cadastroView, loginView, cadastrar, login, logout };

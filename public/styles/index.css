@@ -143,7 +143,7 @@ h2 {
   max-width: 400px;
   width: 100%;
   text-align: center;
-  margin: 0 auto;
+  margin: auto auto;
 }
 
 .form-container h2 {
@@ -163,7 +163,6 @@ h2 {
 }
 
 .form-container input:focus {
-  border-color: #ff6f61;
   box-shadow: 0 0 0 3px rgba(255, 111, 97, 0.2);
   outline: none;
 }
@@ -791,7 +790,7 @@ table td {
 
 .edit-container {
   max-width: 500px;
-  margin: 40px auto;
+  margin: auto auto;
   padding: 25px;
   background: #ffffffcc;
   border-radius: 18px;
@@ -855,8 +854,55 @@ table td {
 
 
 
+/* SHOW */
+.card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  padding: 2rem;
+  max-width: 700px;
+  margin: auto;
+}
 
 
+p, li {
+  font-size: 1.1rem;
+  margin: 0.5rem 0;
+}
+
+ul {
+  padding-left: 1.2rem;
+}
+
+img.restaurant-img, img.product-img {
+  width: 200px;
+  border-radius: 8px;
+  margin: 1rem 0;
+}
+
+.btn {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.6rem 1.2rem;
+  background-color: #ff6f61;
+  color: #fff;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #ff3b2e;
+}
+
+.btn-secondary {
+  background-color: #ccc;
+  color: #333;
+}
+
+.btn-secondary:hover {
+  background-color: #aaa;
+}
 
 
 
