@@ -133,11 +133,15 @@ Com relações totalmente configuradas.
 
 ## 📸 Imagens e Assets
 
-Coloque sua logo em:
+![Logo](https://raw.githubusercontent.com/andrewSouza-dev/Eccomerce-ExpressFood/main/public/images/logo.png)
 
-public/images/logo.png
+![Tela Inicial](https://raw.githubusercontent.com/andrewSouza-dev/Eccomerce-ExpressFood/main/public/images/TelaInicial.png)
 
-O menu já exibe automaticamente.
+![Login](https://raw.githubusercontent.com/andrewSouza-dev/Eccomerce-ExpressFood/main/public/images/pedido.png)
+
+![Home(cliente)](https://raw.githubusercontent.com/andrewSouza-dev/Eccomerce-ExpressFood/main/public/images/logo.png)
+
+![Admin](https://raw.githubusercontent.com/andrewSouza-dev/Eccomerce-ExpressFood/main/public/images/logo.png)
 
 --
 
