@@ -2,10 +2,12 @@ generator client {
   provider = "prisma-client-js"
 }
 
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
 
 model User {
   id        Int       @id @default(autoincrement())
@@ -13,8 +15,10 @@ model User {
   email     String    @unique
   password  String
   role      Role      @default(CLIENTE)
+  orders    Order[]
   createdAt DateTime  @default(now())
 }
+
 
 model Restaurant {
   id        Int        @id @default(autoincrement())
@@ -25,6 +29,7 @@ model Restaurant {
   createdAt DateTime   @default(now())
 }
 
+
 model Product {
   id            Int          @id @default(autoincrement())
   name          String
@@ -32,8 +37,31 @@ model Product {
   restaurantId  Int
   restaurant    Restaurant   @relation(fields: [restaurantId], references: [id])
   imagemURL     String? 
+  orderItems    OrderItem[]
   createdAt     DateTime     @default(now())
 }
+
+
+model Order { 
+  id        Int @id @default(autoincrement()) 
+  userId    Int 
+  status    String @default("PENDENTE") 
+  total     Float 
+  user      User @relation(fields: [userId], references: [id]) 
+  items     OrderItem[] 
+  createdAt DateTime @default(now()) 
+}
+
+
+model OrderItem { 
+  id        Int @id @default(autoincrement()) 
+  orderId   Int 
+  productId Int 
+  quantity  Int 
+  order     Order @relation(fields: [orderId], references: [id]) 
+  product   Product @relation(fields: [productId], references: [id]) 
+}
+
 
 enum Role {
   ADMIN

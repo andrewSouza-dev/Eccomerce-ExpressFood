@@ -83,7 +83,7 @@ const buscarProdutoPorId = async (id) => {
     }
 }
 
-// SALVAR PEDIDO
+// SALVAR PEDIDO USANDO A TABELA DE ORDERS SÓ PARA MOSTRAR O PEDIDO FINALIZADO!
 const salvarPedido = async (userId, cart) => {
     try {
         if (!cart || cart.length === 0) {

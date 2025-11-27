@@ -907,6 +907,102 @@ img.restaurant-img, img.product-img {
 
 
 
+/* NEW USER */
+/* ===== Formulário de Novo Usuário — versão aprimorada ===== */
+.user-form-container {
+  background: rgba(255, 255, 255, 0.92);
+  padding: 40px 45px;
+  border-radius: 22px;
+  width: 100%;
+  max-width: 450px;
+  box-shadow: 0 12px 35px rgba(0,0,0,0.18);
+  animation: fadeIn 0.5s ease;
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.4);
+  position: relative;
+}
+
+/* brilho suave atrás */
+.user-form-container::before {
+  content: "";
+  position: absolute;
+  top: -5%;
+  left: -5%;
+  width: 110%;
+  height: 110%;
+  border-radius: 25px;
+  background: linear-gradient(135deg, #ff9966, #6a5acd);
+  z-index: -1;
+  filter: blur(35px);
+  opacity: 0.3;
+}
+
+/* labels bonitos */
+.user-form-container label {
+  display: block;
+  text-align: left;
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 6px;
+}
+
+/* inputs modernos */
+.user-form-container input,
+.user-form-container select {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #bbb;
+  background: #fff;
+  font-size: 15px;
+  margin-bottom: 16px;
+  transition: 0.25s ease;
+}
+
+.user-form-container input:focus,
+.user-form-container select:focus {
+  border-color: #6a5acd;
+  box-shadow: 0 0 0 3px rgba(106, 90, 205, 0.25);
+  outline: none;
+}
+
+/* botão mais estiloso */
+.user-form-container .create-btn {
+  background: linear-gradient(90deg, #4caf50, #2e7d32);
+  color: #fff;
+  padding: 14px;
+  border-radius: 10px;
+  width: 100%;
+  font-size: 15px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.user-form-container .create-btn:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(90deg, #56d85f, #2daa42);
+}
+
+/* link voltar mais discreto e elegante */
+.user-form-container .back-btn {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 14px;
+  color: #fff;
+  text-decoration: none;
+  transition: 0.2s ease;
+  padding: 15px 15px;
+  background-color: #0922ff;
+  border-radius: 15px;
+  text-decoration: none;
+}
+
+.user-form-container .back-btn:hover {
+  background-color: #73a4ff;
+}
+
 
 
 /* ===== Animação suave ===== */

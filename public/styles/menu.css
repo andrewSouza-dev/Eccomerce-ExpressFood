@@ -58,7 +58,7 @@
 
 /* Hover nos links */
 .main-nav .nav-link:hover {
-  background: #1c8d9c;       
+  background: #fc5f22;       
   color: #fff;               
 }
 
@@ -72,7 +72,7 @@
 
 /* Botão de voltar do menu */
 .main-nav .voltar {
-  background: #020fbd;
+  background: #bd0202;
   color: white;
   padding: 6px 12px;
   border-radius: 6px;
