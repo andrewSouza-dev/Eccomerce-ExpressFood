@@ -2,9 +2,9 @@ const authentication = (req, res, next) => {
   // Rotas públicas
   const publicPaths = [
     '/',
-    '/auth/login',
-    '/auth/cadastro',
-    '/auth/logout'
+    '/login',
+    '/cadastro',
+    '/logout'
   ];
 
   if (publicPaths.includes(req.path)) {

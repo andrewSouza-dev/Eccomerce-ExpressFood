@@ -5,6 +5,8 @@ require('dotenv').config();
 
 const app = express();
 
+app.set('trust proxy', 1);
+
 /* ======================
    Middlewares globais
 ====================== */
@@ -16,9 +18,10 @@ app.use(express.urlencoded({ extended: true }));
 ====================== */
 app.use(session({
   name: 'expressfood.sid',
-  secret: process.env.SESSION_SECRET || 'expressfood_secret',
+  secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
+  proxy: true,
   cookie: {
     httpOnly: true,
     secure: true,
@@ -37,6 +40,8 @@ app.use(express.static(path.join(__dirname, '../public')));
 ====================== */
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '../views'));
+
+
 
 /* ======================
    Usuário disponível nas views
