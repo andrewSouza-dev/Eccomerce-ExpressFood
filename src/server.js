@@ -1,64 +1,71 @@
-const express = require('express')
-const cors = require('cors')
-const session = require('express-session')
-const path = require('path')
+const express = require('express');
+const session = require('express-session');
+const path = require('path');
+require('dotenv').config();
 
-// Dotenv
-require('dotenv').config()
+const app = express();
 
-const app = express()
+/* ======================
+   Middlewares globais
+====================== */
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Middlewares globais
-app.use(cors({
-  origin: 'http://localhost:3000', // ajuste para seu front
-  credentials: true
-}))
-app.use(express.json())
-app.use(express.urlencoded({ extended: true }))
+/* ======================
+   Sessão
+====================== */
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'foodsecret',
+  name: 'expressfood.sid',
+  secret: process.env.SESSION_SECRET || 'expressfood_secret',
   resave: false,
   saveUninitialized: false,
   cookie: {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production', // só HTTPS em produção
-    sameSite: 'lax',
-    maxAge: 1000 * 60 * 60 // 1h
+    secure: process.env.NODE_ENV === 'production', // Render = true
+    sameSite: 'lax', // OK porque EJS é same-site
+    maxAge: 1000 * 60 * 60 // 1 hora
   }
-}))
+}));
 
-// Pasta pública
-app.use(express.static('public'))
+/* ======================
+   Static files
+====================== */
+app.use(express.static(path.join(__dirname, '../public')));
 
-// View engine
-app.set('view engine', 'ejs')
-app.set('views', path.join(__dirname, '../views'))
+/* ======================
+   Views
+====================== */
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, '../views'));
 
+/* ======================
+   Usuário disponível nas views
+====================== */
 app.use((req, res, next) => {
   res.locals.user = req.session.user || null;
   next();
 });
 
-// Rotas
-const routes = require('./container')
-app.use(routes)
+/* ======================
+   Rotas
+====================== */
+const routes = require('./container');
+app.use(routes);
 
-// Rota 404
+/* ======================
+   404
+====================== */
 app.use((req, res) => {
-  if (req.accepts('html')) {
-    return res.status(404).render('error/error', {
-      status: 404,
-      message: 'Página não encontrada',
-      stack: null
-    })
-  }
-  res.status(404).json({ message: 'Rota não encontrada' })
-})
+  return res.status(404).render('error/error', {
+    status: 404,
+    message: 'Página não encontrada'
+  });
+});
 
-// Middleware de erro
-const errorHandler = require('./middlewares/errorHandler')
-app.use(errorHandler)
-
-// Porta
-const PORT = process.env.PORT || 3001
-app.listen(PORT, () => console.log(`Servidor rodando em http://localhost:${PORT}`))
+/* ======================
+   Porta (Render)
+====================== */
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+  console.log(`Servidor rodando na porta ${PORT}`);
+});
