@@ -21,7 +21,7 @@ app.use(session({
   saveUninitialized: false,
   cookie: {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production', // Render = true
+    secure: true,
     sameSite: 'lax', // OK porque EJS é same-site
     maxAge: 1000 * 60 * 60 // 1 hora
   }
